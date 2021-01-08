@@ -1,20 +1,21 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 #from flaskext.mysql import MySQL
 #import pymysql
 import yaml
+import bcrypt
 
-
+#session['authenticated'] = False
 app = Flask(__name__)
 db = yaml.load(open('db.yaml'))
+app.secret_key = 'oct@vi@n'
 app.config['MYSQL_HOST'] = db['mysql_host']
 app.config['MYSQL_USER'] = db['mysql_user']
 app.config['MYSQL_PASSWORD'] = db['mysql_password']
 app.config['MYSQL_DB'] = db['mysql_db']
 app.config['MYSQL_CURSORCLASS'] = db['mysql_cursorclass']
 mysql = MySQL(app)
-
-
+ISLOGIN = False
 @app.route('/home', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
@@ -23,6 +24,7 @@ def index():
 @app.route('/angajati', methods=['GET', 'POST'])
 def home():
     print("___app.py/home::angajati: STARTED")
+
     try:
         curs = mysql.connection.cursor()
         curs.execute('SELECT * FROM tblAngajati')
@@ -36,6 +38,7 @@ def home():
         print('ERROR___app.py / home::angajati: EROARE FETCH____', e)
 
     return render_template('angajati.html', angajati=data)
+
 
 
 @app.route('/adauga', methods=['GET', 'POST'])
@@ -149,6 +152,49 @@ def deleteAngajat(id):
 
         return redirect(url_for('home'))
 
+
+@app.route('/register', methods=['GET','POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    else:
+        user = request.form['userN']
+        password = request.form['pwd'].encode('utf-8')
+        hash_pwd = bcrypt.hashpw(password, bcrypt.gensalt())
+        curs = mysql.connection.cursor()
+        curs.execute('INSERT INTO tblUsers (username, password) VALUES (%s, %s)', ([user, hash_pwd]) )
+        mysql.connection.commit()
+        session['username'] = user
+        return redirect(url_for('home'))
+
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        userLogin = request.form['userLog']
+        passLogin = request.form['pwdLog'].encode('utf-8')
+        curs = mysql.connection.cursor()
+        curs.execute("SELECT * FROM tblUsers WHERE username=%s", ([userLogin]))
+        userInfo = curs.fetchone()
+        curs.close()
+        print(userInfo['password'])
+        if len(userLogin) > 0:
+            if bcrypt.hashpw(passLogin, userInfo['password'].encode('utf-8')) == userInfo['password'].encode('utf-8'):
+                ISLOGIN = True
+                session['username'] = userInfo['username']
+                session['authenticated'] = True
+                return 'login success'
+            else:
+                return 'login failed'
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return render_template('angajati.html')
+
 if __name__ == '__main__':
+
     app.run(debug=True)
-# "C:\wamp64\www\todos.json"
+    #ISLOGIN = False
