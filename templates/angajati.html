@@ -5,6 +5,11 @@
     <title>Angajati</title>
 </head>
 <body>
+{% if session['username'] %}
+    <p>You logged in as {{ session['username'] }}</p>
+    <li>
+    <a href="/logout">logout</a>
+    </li>
     <h1>Angajatii</h1>
     <p><a href="{{ url_for('adauga') }}"> Adauga</a> </p>
     <table>
@@ -37,5 +42,9 @@
 
 
     </table>
+{% else %}
+Nu esti logat
+{% endif %}
+
 </body>
 </html>
