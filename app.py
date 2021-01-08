@@ -163,6 +163,8 @@ def register():
         hash_pwd = bcrypt.hashpw(password, bcrypt.gensalt())
         curs = mysql.connection.cursor()
         curs.execute('INSERT INTO tblUsers (username, password) VALUES (%s, %s)', ([user, hash_pwd]) )
+        #de facut eroare pentru user already exists
+
         mysql.connection.commit()
         session['username'] = user
         return redirect(url_for('home'))
@@ -176,24 +178,32 @@ def login():
         userLogin = request.form['userLog']
         passLogin = request.form['pwdLog'].encode('utf-8')
         curs = mysql.connection.cursor()
+
         curs.execute("SELECT * FROM tblUsers WHERE username=%s", ([userLogin]))
         userInfo = curs.fetchone()
+
         curs.close()
-        print(userInfo['password'])
+        #print(userInfo['password'])
+
         if len(userLogin) > 0:
+            if userInfo == None:
+                return 'user doesnt exist'
             if bcrypt.hashpw(passLogin, userInfo['password'].encode('utf-8')) == userInfo['password'].encode('utf-8'):
-                ISLOGIN = True
                 session['username'] = userInfo['username']
                 session['authenticated'] = True
                 return 'login success'
             else:
                 return 'login failed'
 
+
 @app.route('/logout')
 def logout():
     session.clear()
     return render_template('angajati.html')
 
+@app.route('/visan')
+def visan():
+    return render_template('angajati_vis.html')
 if __name__ == '__main__':
 
     app.run(debug=True)
