@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angajati</title>
+</head>
+<body>
+    <h1>Angajatii</h1>
+    <p><a href="{{ url_for('adauga') }}"> Adauga</a> </p>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nume</th>
+            <th>Prenume</th>
+            <th>Functie</th>
+            <th>Data angajarii </th>
+            <th>Telefon</th>
+            <th>Email</th>
+            <th>Salariu</th>
+        </tr>
+        {% for angajat in angajati %}
+            <tr>
+                <td>{{ angajat.idAngajat }}</td>
+                <td>{{ angajat.Nume }}</td>
+                <td>{{ angajat.Prenume }}</td>
+                <td>{{ angajat.Functie }}</td>
+                <td>{{ angajat.DataAngajarii }}</td>
+                <td>{{ angajat.Telefon }}</td>
+                <td>{{ angajat.Email }}</td>
+                <td>{{ angajat.SalariuRON }}</td>
+                <td><a href="{{ url_for('editAngajat', id = angajat.idAngajat) }}">Edit</a> </td>
+                <td><a href="{{ url_for('deleteAngajat', id = angajat.idAngajat) }}">Delete</a> </td>
+
+
+            </tr>
+        {% endfor %}
+
+
+    </table>
+</body>
+</html>
