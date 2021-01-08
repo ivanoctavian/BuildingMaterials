@@ -94,6 +94,7 @@ def delete_order():
     try:
         curs = mysql.connection.cursor()
         curs.execute('DELETE FROM tblAngajati WHERE idAngajat = 34')
+        #aasa
         mysql.connection.commit()
         curs.close()
     except Exception as e:
