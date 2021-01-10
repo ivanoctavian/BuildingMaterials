@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+{% if session['username'] %}
+
+    You already logegd as {{ session['username'] }}
+   <p><a href="{{ url_for('home') }}"> Go at home page</a> </p>
+
+
+{% else %}
+<form method="post" action="#">
+    Username: <input type="text" name="userLog">
+    <br>
+    Password: <input type="text" name="pwdLog">
+    <br>
+    <input type="submit" value="login">
+</form>
+
+{% endif %}

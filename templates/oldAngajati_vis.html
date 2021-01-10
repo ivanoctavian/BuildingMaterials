@@ -3,7 +3,7 @@
 <style>
 @font-face {
   font-family: Lato-Regular;
-  src: url("../static/fonts/Lato-Regular.ttf");
+  src: url("/static/fonts/Lato-Regular.ttf");
 }
 body{
     font-family: Lato-Regular;
@@ -20,6 +20,7 @@ body{
     display:flex;
     justify-content: flex-start;
     align-items: center;
+    box-shadow: 0px 13px 17px -12px #f9d230;
     margin-bottom:100px;
 }
 .header-title{
@@ -81,13 +82,14 @@ a{
 <body>
 <div class="header">
     <h2 class="header-title">ANGAJATI</h2>
-    {% if session['username'] %}
-    <p>You logged in as {{ session['username'] }}</p>
 
+
+</div>
+{% if session['username'] %}
+    <p>You logged in as {{ session['username'] }}</p>
     <li>
     <a href="/logout">logout</a>
     </li>
-</div>
 <div class="container">
     <ul class="left-side">
             <li>
@@ -155,12 +157,15 @@ a{
 
             </tr>
         {% endfor %}
-{% endif %}
-            </table>
 
+            </table>
         </li>
     </ul>
 </div>
+{% else %}
+Nu esti logat
+    <a href="{{ url_for('login') }}">Login</a>
+{% endif %}
 
 
 </body>
