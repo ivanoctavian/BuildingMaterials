@@ -127,6 +127,15 @@ a#delete{
     font-family: Lato-Regular;
     font-size:16px;
 }
+#cauta {
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
 </style>
 <body>
 <div class="header">
@@ -177,39 +186,65 @@ a#delete{
             </li>
     </ul>
     <div class="right-side">
-    <table rules="none">
+        <input id="cauta" type="text" onkeyup="myFunction()"/>
+    <table rules="none" id="tabelul">
                 <tr class="table-header">
-                <th>ID</th>
-                <th>Nume</th>
-                <th>Prenume</th>
-                <th>Functie</th>
-                <th>Data angajarii</th>
+                <th>Denumire</th>
+                <th>Producator</th>
+                <th>Raion</th>
+                <th>Unitati</th>
+                <th>Pret RON</th>
+                <th>Garantie Luni</th>
+                <th>Responsabil Raion</th>
                 <th>Telefon</th>
-                <th>Email</th>
-                <th>Salariu</th>
                 </tr>
-                {% for angajat in angajati %}
+                {% for material in materiale %}
             <tr>
-                <td>{{ angajat.idAngajat }}</td>
-                <td>{{ angajat.Nume }}</td>
-                <td>{{ angajat.Prenume }}</td>
-                <td>{{ angajat.Functie }}</td>
-                <td>{{ angajat.DataAngajarii }}</td>
-                <td>{{ angajat.Telefon }}</td>
-                <td>{{ angajat.Email }}</td>
-                <td>{{ angajat.SalariuRON }}</td>
-                <td class="td-button"><a class="td-button-link" id="edit" href="{{ url_for('editAngajat', id = angajat.idAngajat) }}">Edit</a></td>
-                <td class="td-button"><a class="td-button-link" id="delete" href="{{ url_for('deleteAngajat', id = angajat.idAngajat) }}">Delete</a></td>
+
+                <td><b>{{ material.DenumireMaterial }}</b></td>
+                <td>{{ material.DenumireProducator }}</td>
+                <td>{{ material.Raion }}</td>
+                <td>{{ material.Unitati }}</td>
+                <td><b>{{ material.PretRON }}</b></td>
+                <td>{{ material.GarantieLuni }}</td>
+                <td>{{ material.NumeResponsabil }}</td>
+                <td>{{ material.TelefonResponsabil }}</td>
+                <td class="td-button"><a class="td-button-link" id="edit" href="{{ url_for('editAngajat', id = material.idMaterial) }}">Edit</a></td>
+                <td class="td-button"><a class="td-button-link" id="delete" href="{{ url_for('deleteAngajat', id = material.idMaterial) }}">Delete</a></td>
             </tr>
         {% endfor %}
 {% endif %}
             </table>
             <a href="{{ url_for('adauga')}}">
             <input class="button-adauga" type="button" value="Adauga"/>
+
             </a>
+
         </div>
 </div>
 
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("cauta");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("tabelul");
+  tr = table.getElementsByTagName("tr");
 
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
 </body>
 </html>

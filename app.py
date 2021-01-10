@@ -3,6 +3,7 @@ from flask_mysqldb import MySQL
 import yaml
 import bcrypt
 
+#region DB initial settings ** DONE **
 app = Flask(__name__)
 db = yaml.load(open('db.yaml'))
 app.secret_key = 'oct@vi@n'
@@ -12,9 +13,10 @@ app.config['MYSQL_PASSWORD'] = db['mysql_password']
 app.config['MYSQL_DB'] = db['mysql_db']
 app.config['MYSQL_CURSORCLASS'] = db['mysql_cursorclass']
 mysql = MySQL(app)
+#endregion
 
-
-# ANGAJATI DONE
+#region Angajati CRUD ** DONE **
+# DONE
 @app.route('/angajati', methods=['GET', 'POST'])
 def getAngajati():
     print("___app.py / getAngajati::angajati.html: Start getting data from DB.")
@@ -37,10 +39,17 @@ def getAngajati():
 
             return render_template('angajati.html', angajati=data)
 
-
-# NOT DONE YET
+# DONE; mai trebuie sa fac in sql autoincrementul si nu va mai trebui sa adaugam id-ul manual
 @app.route('/adauga', methods=['GET', 'POST'])
 def adauga():
+    if request.method == "GET":
+        if session.get('username') is None:
+            print("___app.py / editAngajat::editAngajat.html: Not logged in. Redirect to login.")
+            return redirect(url_for('login'))
+        if session['username']:
+            print("___app.py / login::login.html: User %s logged in. Redirect to homePage." % session.__getitem__('username'))
+            return render_template('adauga.html')
+
     if request.method == 'POST':
         print("___app.py / adauga::adauga.html: doPost STARTED")
 
@@ -73,10 +82,10 @@ def adauga():
                 curs.execute(
                     'INSERT INTO tblAngajati(idAngajat, Nume, Prenume, Functie, DataAngajarii, Telefon, Email, SalariuRON) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
                     (idAn, numeAn, prenumeAn, functieeAn, dataAngajariiAn, telAn, emailAn, salariuAn))
-                print("___app.py / adauga::adauga.html: SUCCES SA MOARA COPII INSERT QUERY EXECUTED")
+                print("___app.py / adauga::adauga.html: Angajat added successfully.")
                 mysql.connection.commit()
                 curs.close()
-                return  redirect(url_for('home'))
+                return  redirect(url_for('getAngajati'))
             except Exception as e:
                 print("ERROR___app.py / adauga::adauga.html: ____EROARE ADAUGARE____::", e)
                 # print(traceback.print_exc())
@@ -86,9 +95,7 @@ def adauga():
 
         print("___app.py / adauga::adauga.html: ____doPost END")
 
-    return render_template('adauga.html')
-
-
+# DONE
 @app.route('/editAngajat/<string:id>', methods=['GET', 'POST'])
 def editAngajat(id):
     curs = mysql.connection.cursor()
@@ -124,17 +131,7 @@ def editAngajat(id):
             print("ERROR___app.py / editAngajat::editAngajat.html: ")
             print(e)
 
-# INCERCARE
-def delete(numeidElem,tabel,valoareId):
-    curs = mysql.connection.cursor()
-    query = "DELETE FROM %s WHERE %s=%s"
-    curs.execute(query,[tabel,numeidElem,valoareId])
-    mysql.connection.commit()
-    curs.close()
-# END INCERCARE
-
-
-# MAI E PUTIN;
+# DONE
 @app.route('/deleteAngajat/<string:id>', methods=['GET','POST'])
 def deleteAngajat(id):
     curs = mysql.connection.cursor()
@@ -150,8 +147,49 @@ def deleteAngajat(id):
             curs.close()
             print("___app.py / deleteAngajat::deleteAngajat.html: idAngajat %s deleted." % id)
             return redirect(url_for('getAngajati'))
+#endregion
+
+#region Materiale CRUD ** NOT DONE **
+@app.route('/materiale', methods=['GET', 'POST'])
+def getMateriale():
+    print("___app.py / getMateriale::materiale.html: Start getting data from DB.")
+    if request.method == 'GET':
+        if session.get('username') is None:
+            print("___app.py / getMateriale::materiale.html: Not logged in. Redirect to login.")
+            return redirect(url_for('login'))
+        if session['username']:
+            try:
+                curs = mysql.connection.cursor()
+                sql = "SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator'," \
+                      "tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil' " \
+                      " FROM tblResponsabiliRaioane " \
+                      "RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK " \
+                      "LEFT JOIN tblProducatori " \
+                      "ON tblMateriale.ProducatorFK=tblProducatori.idProducator" \
+                      " LEFT JOIN tblAngajati ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat"
+
+                curs.execute(sql)
+                data = curs.fetchall()
+                print(data)
+                for a in data:
+                    print(a)
+                # pentru a vedea atributele unui obiect:
+                #for ang in data:
+                 #   print(ang['idAngajat'])
+                print('___app.py / getMateriale::materiale.html.html: FETCH DONE.')
+                curs.close()
+            except Exception as e:
+                print('ERROR___app.py / getMateriale::materiale.html: EROARE FETCH____', e)
+
+            return render_template('materiale.html', materiale=data)
+#endregion-
 
 
+
+
+
+#region Login, Logout, Register, Homepage ** DONE **
+# DONE
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method =='GET':
@@ -201,6 +239,7 @@ def register():
        # session['username'] = userN
         #return redirect(url_for('homePage'))
 
+# DONE
 @app.route('/homePage', methods=['GET', 'POST'])
 def homePage():
     if request.method == "GET":
@@ -238,7 +277,7 @@ def homePage():
     #             return redirect(url_for('homePage'))
     #             #return 'login failed'
 
-
+# DONE
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -279,7 +318,7 @@ def login():
                 print("___app.py / login::login.html: LOGIN FAILED.")
                 return redirect(url_for('login'))
 
-
+# DONE
 @app.route('/logout')
 def logout():
     #print(session.__getitem__('username'))
@@ -291,8 +330,10 @@ def logout():
     #session['authenticated'] = False
     return redirect(url_for('login'))
 
+#endregion
 
 if __name__ == '__main__':
 
     app.run(debug=True)
     #ISLOGIN = False
+
