@@ -213,21 +213,25 @@ input{
         <h2>ANGAJATI</h2>
     </li>
     </a>
-    <a href="aa.html">
+    <a href="{{ url_for('getMateriale')}}">
     <li class="diamond2 bottomDiamond">
         <h2>Materiale</h2>
     </li>
     </a>
+    <a href="aici o sa fie getByCategorie.html">
     <li class="diamond3 topDiamond">
-        <h2>Sterge</h2>
+        <h2>Categorii de materiale</h2>
     </li>
+    </a>
+    <a href="{{ url_for('getProducatori') }}">
     <li class="diamond4 bottomDiamond">
-        <h2>Adauga</h2>
+        <h2>Producatori</h2>
     </li>
+    </a>
     <li class="diamond5 topDiamond">
         <h2>Adauga</h2>
     </li>
-    
+    <a/>
 </ul>
 {% else %}
     <a href="{{ url_for('login') }}"></a>
@@ -247,6 +251,36 @@ input{
         if((!$target.closest('.username').length || !$target.closest('.logout').length)){
         $('.logout').css('display','none');
   }
+});
+</script>
+<script>
+    const login = document.getElementsByClassName("login")[0];
+    const lock = document.getElementsByClassName("lock")[0];
+    const topDiamonds = document.getElementsByClassName("topDiamond");
+    const topDiamondsArray = Array.from(topDiamonds);
+    const bottomDiamonds = document.getElementsByClassName("bottomDiamond");
+    const bottomDiamondsArray = Array.from(bottomDiamonds);
+    topDiamondsArray.forEach((topDiamond) => {
+        topDiamond.onmouseover = () => {
+        topDiamond.style.top="-50px";
+    }
+        topDiamond.onmouseleave = () => {
+        setTimeout(
+            function(){
+                topDiamond.style.top="0";
+            },500);
+    }
+    })
+    bottomDiamondsArray.forEach((bottomDiamond) => {
+        bottomDiamond.onmouseover = () => {
+        bottomDiamond.style.bottom="-50px";
+    }
+        bottomDiamond.onmouseleave = () => {
+        setTimeout(
+            function(){
+                bottomDiamond.style.bottom="0";
+            },500);
+    }
 });
 </script>
 </html>

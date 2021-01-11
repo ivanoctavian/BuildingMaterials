@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<style>
+@font-face {
+  font-family: Lato-Regular;
+  src: url("../static/fonts/Lato-Regular.ttf");
+}
+body{
+    font-family: Lato-Regular;
+    margin:0;
+    padding:0;
+    background: #2a3a49;
+}
+.header{
+    position:relative;
+    top:0;
+    height:60px;
+    width:100%;
+    background:#f9d230;
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom:100px;
+}
+.header-title{
+    padding-left: 50px;
+    color:white;
+    letter-spacing: 4px;
+}
+.container{
+    display:flex;
+}
+.left-side{
+    list-style: none;
+    margin-right:100px;
+}
+.left-side li {
+    margin-bottom:20px;
+}
+.menuButton{
+    width:200px;
+    height:35px;
+    background: #f9d230;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.menuButton:hover{
+    background:white;
+}
+.menuButton:hover h4 {
+    color: #f9d230;
+}
+a{
+    text-decoration: none;
+}
+.buttonText{
+    color:white;
+}
+
+.right-side-header{
+    background: #f9d230;
+    display:flex;
+    justify-content: space-between;
+    padding:0 25px 0 25px;
+    color:white;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+}
+table{
+    margin-bottom:20px;
+}
+tr > td{
+    background:white;
+}
+.table-header{
+    background: #f9d230;
+}
+td,th{
+    padding:8px;
+}
+th{
+    padding-top:12px;
+    padding-bottom:12px;
+    color:white;
+}
+td{
+    border-bottom:1px solid #d3d3d3;
+    text-align:center;
+}
+
+tr:nth-of-type(even) >td{
+    background:#e8e8e8;
+}
+tr:nth-of-type(even) >td.td-button{
+    background:transparent;
+}
+td.td-button{
+    background:transparent;
+    border:0;
+}
+a.td-button-link,.button-adauga{
+    color:white;
+    padding:6px 10px 6px 10px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-radius:5px;
+}
+a#edit{
+    background:#ADD8E6;
+}
+a#delete{
+    background:#f9826c;
+}
+.button-adauga{
+    margin:0 auto;
+    display:block;
+    background:#40c463;
+    border:0;
+    padding:10px 15px 10px 15px;
+    cursor:pointer;
+    outline:none;
+    font-family: Lato-Regular;
+    font-size:16px;
+}
+#cauta {
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+</style>
+<body>
+<div class="header">
+    <h2 class="header-title">ANGAJATI</h2>
+    {% if session['username'] %}
+    <p>You logged in as {{ session['username'] }}</p>
+
+    <li>
+    <a href="/logout">logout</a>
+    </li>
+</div>
+<div class="container">
+    <ul class="left-side">
+            <li>
+                <a href="{{ url_for('homePage') }}">
+                <div class="menuButton">
+                <h4 class="buttonText">Acasa</h4>
+                </div>
+                </a>
+            </li>
+            <li>
+                <a href="homePage.html">
+                <div class="menuButton">
+                <h4 class="buttonText">Raioane</h4>
+                </div>
+                </a>
+            </li>
+            <li>
+                <a href="homePage.html">
+                <div class="menuButton">
+                <h4 class="buttonText">Producatori</h4>
+                </div>
+                </a>
+            </li>
+            <li>
+                <a href="homePage.html">
+                <div class="menuButton">
+                <h4 class="buttonText">Acasa</h4>
+                </div>
+                </a>
+            </li>
+            <li>
+                <a href="homePage.html">
+                <div class="menuButton">
+                <h4 class="buttonText">Acasa</h4>
+                </div>
+                </a>
+            </li>
+    </ul>
+    <div class="right-side">
+        <input id="cauta" type="text" onkeyup="myFunction()" placeholder="Cauta un material"/>
+    <table rules="none" id="tabelul">
+                <tr class="table-header">
+                <th>Denumire</th>
+                <th>Producator</th>
+                <th>Unitati</th>
+                <th>Pret RON</th>
+                <th>Garantie Luni</th>
+                <th>Responsabil Raion</th>
+                <th>Telefon</th>
+                <th>Raion</th>
+                <th>Categorie</th>
+                </tr>
+                {% for material in materiale %}
+            <tr>
+
+                <td><b>{{ material.DenumireMaterial }}</b></td>
+                <td>{{ material.DenumireProducator }}</td>
+                <td>{{ material.Unitati }}</td>
+                <td><b>{{ material.PretRON }}</b></td>
+                <td>{{ material.GarantieLuni }}</td>
+                <td>{{ material.NumeResponsabil }}</td>
+                <td>{{ material.TelefonResponsabil }}</td>
+                <td>{{ material.Raion }}</td>
+                <td>{{ material.Categorie }}</td>
+                <td class="td-button"><a class="td-button-link" id="edit" href="{{ url_for('editAngajat', id = material.idMaterial) }}">Edit</a></td>
+                <td class="td-button"><a class="td-button-link" id="delete" href="{{ url_for('deleteAngajat', id = material.idMaterial) }}">Delete</a></td>
+            </tr>
+        {% endfor %}
+{% endif %}
+            </table>
+            <a href="{{ url_for('adauga')}}">
+            <input class="button-adauga" type="button" value="Adauga"/>
+
+            </a>
+
+        </div>
+</div>
+
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("cauta");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("tabelul");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[8];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+</body>
+</html>
