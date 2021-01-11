@@ -184,8 +184,48 @@ def getMateriale():
                 print('ERROR___app.py / getMateriale::materiale.html: EROARE FETCH____', e)
 
             return render_template('materiale.html', materiale=data)
-#endregion-
+#endregion
 
+
+@app.route('/categorie/<string:categorie>', methods=['GET', 'POST'])
+def getMaterialeByCategorie(categorie):
+    print("___app.py / getMateriale::materiale.html: Start getting data from DB.")
+    if request.method == 'GET':
+        if session.get('username') is None:
+            print("___app.py / getMaterialeByCategorie::categorie.html: Not logged in. Redirect to login.")
+            return redirect(url_for('login'))
+
+
+        if session['username']:
+            queryCastigator = "SELECT * FROM(SELECT tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator'," \
+                              "tblMateriale.RaionFK AS 'Raion', Unitati, PretRON, GarantieLuni,tblAngajati.Nume AS 'NumeResponsabil'," \
+                              "tblAngajati.Telefon AS 'TelefonResponsabil' FROM tblResponsabiliRaioane" \
+                              " RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK " \
+                              "LEFT JOIN tblAngajati ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat" \
+                              " LEFT JOIN tblProducatori ON tblMateriale.ProducatorFK=tblProducatori.idProducator)" \
+                              "AS Tabel WHERE Tabel.DenumireProducator='Adeplast'"
+
+            queryFinal  =     "SELECT * FROM(SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator'," \
+                              "tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', " \
+                              "tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil'," \
+                              " tblRaioane.Categorie AS 'Categorie' " \
+                              " FROM tblResponsabiliRaioane " \
+                              "RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK " \
+                              "LEFT JOIN tblProducatori " \
+                              "ON tblMateriale.ProducatorFK=tblProducatori.idProducator" \
+                              " LEFT JOIN tblAngajati " \
+                              "ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat" \
+                              " LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion) AS Tabel" \
+                              "WHERE Tabel.Categorie = %s"
+            curs = mysql.connection.cursor()
+            sql1 = 'SELECT Categorie FROM tblRaioane WHERE Categorie=%s'
+            curs.execute(sql1,[categorie])
+            categorii = curs.fetchall()
+            sql = 'SELECT * FROM tblAngajati WHERE idAngajat=%s'
+            curs.execute(sql, [id])
+            res = curs.fetchone()
+            curs.close()
+            return render_template("editAngajat.html", angajati=res)
 
 
 
