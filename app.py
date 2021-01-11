@@ -161,12 +161,14 @@ def getMateriale():
             try:
                 curs = mysql.connection.cursor()
                 sql = "SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator'," \
-                      "tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil' " \
+                      "tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil', tblRaioane.Categorie AS 'Categorie' " \
                       " FROM tblResponsabiliRaioane " \
                       "RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK " \
                       "LEFT JOIN tblProducatori " \
                       "ON tblMateriale.ProducatorFK=tblProducatori.idProducator" \
-                      " LEFT JOIN tblAngajati ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat"
+                      " LEFT JOIN tblAngajati " \
+                      "ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat" \
+                      " LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion"
 
                 curs.execute(sql)
                 data = curs.fetchall()

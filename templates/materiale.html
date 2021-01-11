@@ -128,8 +128,8 @@ a#delete{
     font-size:16px;
 }
 #cauta {
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
   width: 100%;
   font-size: 16px;
   padding: 12px 20px 12px 40px;
@@ -150,7 +150,7 @@ a#delete{
 <div class="container">
     <ul class="left-side">
             <li>
-                <a href="homePage.html">
+                <a href="{{ url_for('homePage') }}">
                 <div class="menuButton">
                 <h4 class="buttonText">Acasa</h4>
                 </div>
@@ -186,29 +186,31 @@ a#delete{
             </li>
     </ul>
     <div class="right-side">
-        <input id="cauta" type="text" onkeyup="myFunction()"/>
+        <input id="cauta" type="text" onkeyup="myFunction()" placeholder="Cauta un material"/>
     <table rules="none" id="tabelul">
                 <tr class="table-header">
                 <th>Denumire</th>
                 <th>Producator</th>
-                <th>Raion</th>
                 <th>Unitati</th>
                 <th>Pret RON</th>
                 <th>Garantie Luni</th>
                 <th>Responsabil Raion</th>
                 <th>Telefon</th>
+                <th>Raion</th>
+                <th>Categorie</th>
                 </tr>
                 {% for material in materiale %}
             <tr>
 
                 <td><b>{{ material.DenumireMaterial }}</b></td>
                 <td>{{ material.DenumireProducator }}</td>
-                <td>{{ material.Raion }}</td>
                 <td>{{ material.Unitati }}</td>
                 <td><b>{{ material.PretRON }}</b></td>
                 <td>{{ material.GarantieLuni }}</td>
                 <td>{{ material.NumeResponsabil }}</td>
                 <td>{{ material.TelefonResponsabil }}</td>
+                <td>{{ material.Raion }}</td>
+                <td>{{ material.Categorie }}</td>
                 <td class="td-button"><a class="td-button-link" id="edit" href="{{ url_for('editAngajat', id = material.idMaterial) }}">Edit</a></td>
                 <td class="td-button"><a class="td-button-link" id="delete" href="{{ url_for('deleteAngajat', id = material.idMaterial) }}">Delete</a></td>
             </tr>
@@ -234,7 +236,7 @@ function myFunction() {
 
   // Loop through all table rows, and hide those who don't match the search query
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
+    td = tr[i].getElementsByTagName("td")[8];
     if (td) {
       txtValue = td.textContent || td.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {

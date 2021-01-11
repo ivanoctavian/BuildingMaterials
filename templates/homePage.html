@@ -236,42 +236,17 @@ input{
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
-    const login = document.getElementsByClassName("login")[0];
-    const lock = document.getElementsByClassName("lock")[0];
-    const topDiamonds = document.getElementsByClassName("topDiamond");
-    const topDiamondsArray = Array.from(topDiamonds);
-    const bottomDiamonds = document.getElementsByClassName("bottomDiamond");
-    const bottomDiamondsArray = Array.from(bottomDiamonds);
-    $(".lock").click(function(){
-        login.classList.add('active');
-        $(".login").fadeIn(3000);
-    });
-    $(".close").click(function(){
-        login.classList.remove('active');
-        $(".login").fadeOut(3000);
-    });
-    topDiamondsArray.forEach((topDiamond) => {
-        topDiamond.onmouseover = () => {
-        topDiamond.style.top="-50px";
-    }
-        topDiamond.onmouseleave = () => {
-        setTimeout(
-            function(){
-                topDiamond.style.top="0";
-            },500);
-    }
+    $(".username").mouseenter(function() {
+        $(".logout").css('display','flex');
     })
-    bottomDiamondsArray.forEach((bottomDiamond) => {
-        bottomDiamond.onmouseover = () => {
-        bottomDiamond.style.bottom="-50px";
-    }
-        bottomDiamond.onmouseleave = () => {
-        setTimeout(
-            function(){
-                bottomDiamond.style.bottom="0";
-            },500);
-    }
-    })
-    
+    // $(".username").mouseleave(function() {
+    //     $(".logout").css('display','none');
+    // })
+    $(document).click(function(event) {
+        let $target = $(event.target);
+        if((!$target.closest('.username').length || !$target.closest('.logout').length)){
+        $('.logout').css('display','none');
+  }
+});
 </script>
 </html>
