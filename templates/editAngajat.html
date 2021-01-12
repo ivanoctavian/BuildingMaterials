@@ -1,28 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+@font-face {
+  font-family: Lato-Regular;
+  src: url("../static/fonts/Lato-Regular.ttf");
+}
+body{
+    font-family: Lato-Regular;
+    margin:0;
+    padding:0;
+    background: #2a3a49;
+}
+.header{
+    position:relative;
+    top:0;
+    height:60px;
+    width:100%;
+    background:#f9d230;
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom:100px;
+}
+.header-title{
+    padding-left: 50px;
+    color:white;
+    letter-spacing: 4px;
+}
+.editBox{
+    position:absolute;
+    width:300px;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+.formText{
+    width:100%;
+    border:none;
+    outline:none;
+    background:none;
+    font-weight:bold;
+    border-bottom: 2px solid #f9d230;
+    margin-bottom:15px;
+    padding:10px 0 10px 0;
+    color:#f9d230;
+}
+
+.formElement{
+    margin:0;
+    font-size:14px;
+    color:white;
+}
+.updateButton{
+    width:100%;
+    border:2px solid #f9d230;
+    background: transparent;
+    padding:5px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight: bold;
+    margin-bottom:15px;
+    color:#f9d230;
+    border-radius:5px;
+}
+</style>
 <meta charset="UTF-8">
+<body>
+<div class="header">
+    <h2 class="header-title">EDITARE</h2>
+</div>
+<div class="editBox">
 <form method="post" action="">
-    <!--
-    ID <input type="number" name="idAngajat"value="{{ angajati.idAngajat }}" >
-    <br>-->
-    Nume <input type="text" name="nume" value="{{ angajati.Nume }}">
-    <br>
-
-    Prenume <input type="text" name="prenume" value="{{ angajati.Prenume }}">
-    <br>
-    Functie <input type="text" name="functie" value="{{ angajati.Functie }}">
-    <br>
-
-    Data angajarii <input type="date" name="data_angajarii" value="{{ angajati.DataAngajarii }}">
-    <br>
-    Telefon <input type="number" name="telefon" value="{{ angajati.Telefon }}">
-    <br>
-
-    Email <input type="text" name="email" value="{{ angajati.Email }}">
-    <br>
-    Salariu <input type="number" name="salariu" value="{{ angajati.SalariuRON }}">
-    <br>
-
-    <input type="submit" value="Update details">
+     <p class="formElement">Nume</p>
+     <input class="formText" type="text" name="nume" value="{{ angajati.Nume }}">
+     <p class="formElement">Prenume</p>
+     <input class="formText" type="text" name="prenume" value="{{ angajati.Prenume }}">
+     <p class="formElement">Functie</p>
+     <input class="formText" type="text" name="functie" value="{{ angajati.Functie }}">
+     <p class="formElement">Data angajarii</p>
+     <input class="formText" type="date" name="data_angajarii" value="{{ angajati.DataAngajarii }}">
+     <p class="formElement">Telefon</p>
+     <input class="formText" type="number" name="telefon" value="{{ angajati.Telefon }}">
+     <p class="formElement">Email</p>
+     <input class="formText" type="text" name="email" value="{{ angajati.Email }}">
+     <p class="formElement">Salariu</p>
+     <input class="formText" type="number" name="salariu" value="{{ angajati.SalariuRON }}">
+    <input class="updateButton" type="submit" value="Update">
 
 </form>
+</div>
+</body>
+</html>

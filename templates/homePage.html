@@ -213,25 +213,23 @@ input{
         <h2>ANGAJATI</h2>
     </li>
     </a>
-    <a href="{{ url_for('getMateriale')}}">
+    <a href="{{ url_for('getMateriale') }}">
     <li class="diamond2 bottomDiamond">
-        <h2>Materiale</h2>
-    </li>
-    </a>
-    <a href="aici o sa fie getByCategorie.html">
-    <li class="diamond3 topDiamond">
-        <h2>Categorii de materiale</h2>
+        <h2>MATERIALE</h2>
     </li>
     </a>
     <a href="{{ url_for('getProducatori') }}">
-    <li class="diamond4 bottomDiamond">
-        <h2>Producatori</h2>
+    <li class="diamond3 topDiamond">
+        <h2>PRODUCATORI</h2>
     </li>
     </a>
+    <li class="diamond4 bottomDiamond">
+        <h2>Adauga</h2>
+    </li>
     <li class="diamond5 topDiamond">
         <h2>Adauga</h2>
     </li>
-    <a/>
+    
 </ul>
 {% else %}
     <a href="{{ url_for('login') }}"></a>
@@ -240,6 +238,12 @@ input{
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
+    const login = document.getElementsByClassName("login")[0];
+    const lock = document.getElementsByClassName("lock")[0];
+    const topDiamonds = document.getElementsByClassName("topDiamond");
+    const topDiamondsArray = Array.from(topDiamonds);
+    const bottomDiamonds = document.getElementsByClassName("bottomDiamond");
+    const bottomDiamondsArray = Array.from(bottomDiamonds);
     $(".username").mouseenter(function() {
         $(".logout").css('display','flex');
     })
@@ -252,15 +256,7 @@ input{
         $('.logout').css('display','none');
   }
 });
-</script>
-<script>
-    const login = document.getElementsByClassName("login")[0];
-    const lock = document.getElementsByClassName("lock")[0];
-    const topDiamonds = document.getElementsByClassName("topDiamond");
-    const topDiamondsArray = Array.from(topDiamonds);
-    const bottomDiamonds = document.getElementsByClassName("bottomDiamond");
-    const bottomDiamondsArray = Array.from(bottomDiamonds);
-    topDiamondsArray.forEach((topDiamond) => {
+topDiamondsArray.forEach((topDiamond) => {
         topDiamond.onmouseover = () => {
         topDiamond.style.top="-50px";
     }

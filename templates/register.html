@@ -99,38 +99,38 @@ function checkForm(form)
     $(".formText").removeClass("error");
 
     if(form.nume.value == "") {
-      $(".errorMessage").text("Nume cannot be blank!");
+      $(".errorMessage").text("Numele trebuie completat!");
       $("#nume").addClass("error");
       return false;
     }
     if(form.prenume.value == "") {
-      $(".errorMessage").text("Prenume cannot be blank!");
+      $(".errorMessage").text("Prenumele trebuie completat!");
       $("#prenume").addClass("error");
       return false;
     }
     if(form.email.value == "") {
-      $(".errorMessage").text("Email cannot be blank!");
+      $(".errorMessage").text("Emailul trebuie completat!");
       $("#email").addClass("error");
       return false;
     }
     if(form.username.value == "") {
-      $(".errorMessage").text("Username cannot be blank!");
+      $(".errorMessage").text("Username-ul trebuie completat!");
       $("#username").addClass("error");
       return false;
     }
       if(form.pwd1.value == form.username.value) {
-        $(".errorMessage").text("Password must be different from Username!");
+        $(".errorMessage").text("Parola trebuie sa fie diferita de username!");
         $("#username").addClass("error");
         $("#pwd1").addClass("error");
         return false;
       }
       if(form.pwd1.value.length < 5) {
-        $(".errorMessage").text("Password must contain at least five characters!");
+        $(".errorMessage").text("Parola trebuie sa contina cel putin 5 caractere!");
         $("#pwd1").addClass("error");
         return false;
       }
       if(form.pwd1.value != form.pwd2.value) {
-        $(".errorMessage").text("Password and password confirm do not correspond!");
+        $(".errorMessage").text("Parolele nu corespund!");
         $("#pwd1").addClass("error");
         $("#pwd2").addClass("error");
         return false;
