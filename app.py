@@ -275,6 +275,78 @@ def adaugaMaterial():
         print("___app.py / adaugaMaterial::adaugaMaterial.html.html: ____doPost END")
 
 
+@app.route('/editMaterial/<string:id>', methods=['GET','POST'])
+def editMaterial(id):
+    curs = mysql.connection.cursor()
+    if request.method == "GET":
+        if session.get('username') is None:
+            print("___app.py / editMaterial::editMaterial.html: Not logged in. Redirect to login.")
+            return redirect(url_for('login'))
+        if session['username']:
+
+            sql = "SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator'," \
+                  "tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil', tblRaioane.Categorie AS 'Categorie' " \
+                  " FROM tblResponsabiliRaioane " \
+                  "RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK " \
+                  "LEFT JOIN tblProducatori " \
+                  "ON tblMateriale.ProducatorFK=tblProducatori.idProducator" \
+                  " LEFT JOIN tblAngajati " \
+                  "ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat" \
+                  " LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion WHERE idMaterial = %s"
+            #sqlBun = ''
+            curs.execute(sql, [id])
+            res = curs.fetchone()
+            sqlGetProd = "SELECT Denumire FROM tblProducatori"
+            curs.execute(sqlGetProd)
+            producatorii = curs.fetchall()
+            query0 = 'SELECT Categorie FROM tblRaioane'
+            curs.execute(query0)
+            varianteCategorie = curs.fetchall()  # de trimis ca parametru
+            curs.close()
+            return render_template("editMaterial.html", materiale=res, producatori=producatorii, categorii=varianteCategorie)
+            # return render_template('homePage.html')
+
+    if request.method == 'POST':
+        print("___app.py / adaugaMaterial::adaugaMaterial.html: doPost STARTED")
+        numeProducator = request.form['numeP']
+        categorie = request.form['categorieM']
+        denumire = request.form['denumireM']
+        unitati = request.form['unitatiM']
+        pret = request.form['pretM']
+        garantie = request.form['garantieM']
+
+        try:
+            curs = mysql.connection.cursor()
+
+            try:
+                query1 = 'SELECT idProducator FROM tblProducatori WHERE Denumire = %s'
+                query2 = 'SELECT idRaion FROM tblRaioane WHERE Categorie = %s'
+                curs.execute(query1, [numeProducator])
+                producator = curs.fetchone()
+                idProducator = producator['idProducator']
+                curs.execute(query2, [categorie])
+                raion = curs.fetchone()
+                idRaion = raion['idRaion']
+                sql = "UPDATE tblAngajati SET Nume=%s, Prenume=%s, Functie=%s,DataAngajarii=%s,Telefon=%s, Email=%s, SalariuRON=%s WHERE idAngajat=%s"
+                updateQuery = "UPDATE tblMateriale SET ProducatorFK = %s, RaionFK = %s, Denumire = %s, Unitati = %s, PretRON = %s, GarantieLuni = %s WHERE idMaterial = %s"
+                #curs.execute(
+                    #'INSERT INTO tblMateriale(ProducatorFK, RaionFK, Denumire, Unitati, PretRON, GarantieLUNI) VALUES (%s, %s, %s, %s, %s, %s)',
+                   # (idProducator, idRaion, denumire, unitati, pret, garantie))
+                curs.execute(updateQuery,[idProducator, idRaion, denumire, unitati, pret, garantie, id ])
+                mysql.connection.commit()
+                print("___app.py / adaugaMaterial::adaugaMaterial.html: Material added successfully.")
+                curs.close()
+                return redirect(url_for('getMateriale'))
+            except Exception as e:
+                print("ERROR___app.py / adaugaMaterial::adaugaMaterial.html: ____EROARE ADAUGARE____::", e)
+                # print(traceback.print_exc())
+        except Exception as e:
+            print("ERROR___app.py / adaugaMaterial::adaugaMaterial.html: ____EROARE CONEXIUNE DB____")
+            print("ERROR___app.py / adaugaMaterial::adaugaMaterial.html: ____EROARE CONEXIUNE DB____::", e)
+
+        print("___app.py / adaugaMaterial::adaugaMaterial.html.html: ____doPost END")
+
+
 @app.route('/categorie/<string:categorie>', methods=['GET', 'POST'])
 def getMaterialeByCategorie(categorie):
     print("___app.py / getMaterialeByCategorie::categorie.html: Start getting data from DB.")
