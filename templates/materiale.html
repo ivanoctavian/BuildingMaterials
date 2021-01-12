@@ -265,7 +265,7 @@ a#delete{
                 <td>{{ material.TelefonResponsabil }}</td>
                 <td>{{ material.Raion }}</td>
                 <td>{{ material.Categorie }}</td>
-                <td class="td-button"><a class="td-button-link" id="edit" href="{{ url_for('editAngajat', id = material.idMaterial) }}">Edit</a></td>
+                <td class="td-button"><a class="td-button-link" id="edit" href="{{ url_for('editMaterial', id = material.idMaterial) }}">Edit</a></td>
                 <td class="td-button"><a class="td-button-link" id="delete" href="{{ url_for('deleteAngajat', id = material.idMaterial) }}">Delete</a></td>
             </tr>
         {% endfor %}

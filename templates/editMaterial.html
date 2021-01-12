@@ -1,10 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<meta charset="UTF-8">
+<style>
+    @font-face {
+      font-family: Lato-Regular;
+      src: url("../static/fonts/Lato-Regular.ttf");
+    }
+    body{
+        font-family: Lato-Regular;
+        margin:0;
+        padding:0;
+        background: #2a3a49;
+    }
+    .header{
+        position:relative;
+        top:0;
+        height:60px;
+        width:100%;
+        background:#f9d230;
+        display:flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom:100px;
+    }
+    .header-title{
+        padding-left: 50px;
+        color:white;
+        letter-spacing: 4px;
+    }
+    .adaugareBox{
+        position:absolute;
+        width:300px;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+    }
+    .formText{
+        width:100%;
+        border:none;
+        outline:none;
+        background:none;
+        font-weight:bold;
+        border-bottom: 2px solid #f9d230;
+        margin-bottom:15px;
+        padding:10px 0 10px 0;
+        color:#f9d230;
+    }
 
+    .formElement{
+        margin:0;
+        font-size:14px;
+        color:white;
+    }
+    .adaugaButton{
+        width:100%;
+        border:2px solid #f9d230;
+        background: transparent;
+        padding:5px;
+        cursor:pointer;
+        font-size:15px;
+        font-weight: bold;
+        margin-bottom:15px;
+        color:#f9d230;
+        border-radius:5px;
+    }
+select{
+   -webkit-appearance:none;
+   -moz-appearance:none;
+   -ms-appearance:none;
+   appearance:none;
+   outline:0;
+   box-shadow:none;
+   border:0!important;
+   background: white;
+   background-image: none;
+   flex: 1;
+   padding: 5px;
+   color:black;
+   cursor:pointer;
+   font-size: 16px;
+}
+.select-wrapper{
+   position: relative;
+   display: flex;
+   align-items: center;
+   height:30px;
+   line-height: 3;
+   overflow: hidden;
+   border-radius: 4px;
+   margin-bottom:15px;
+}
+.select-wrapper::after {
+   content: '\25BC';
+   top: 0;
+   right: 0;
+   padding: 0 10px;
+   background: #f9d230;
+   cursor:pointer;
+   pointer-events:none;
+   transition:.25s all ease;
+}
+    </style>
+<body>
+<div class="header">
+    <h2 class="header-title">ADAUGARE</h2>
+</div>
+<div class="adaugareBox">
+<form method="post" action="#">
+<div class="select-wrapper">
+<select id="numeP" name="numeP">
+    <!--<option selected disabled>Producator</option>-->
+    <option value="{{ materiale.DenumireProducator }}">{{ materiale.DenumireProducator }}</option>
+    {% for producator in producatori %}
+    <option value="{{ producator.Denumire }}">{{ producator.Denumire }}</option>
+    {% endfor %}
+</select>
+</div>
+<div class="select-wrapper">
+<select id="categorieM" name="categorieM">
+    <!--<option selected disabled>Categorie</option>-->
+    <option value="{{ materiale.Categorie }}">{{ materiale.Categorie }}</option>
+    {% for categorie in categorii %}
+    <option value="{{ categorie.Categorie }}">{{ categorie.Categorie }}</option>
+    {% endfor %}
+</select>
+</div>
+    <p class="formElement">Denumire</p>
+    <input class="formText" type="text" name="denumireM" value="{{ materiale.DenumireMaterial }}">
+    <p class="formElement">Unitati</p>
+    <input class="formText" type="number" name="unitatiM" value="{{ materiale.Unitati }}">
+    <p class="formElement">Pret</p>
+    <input class="formText" type="number" name="pretM" value="{{ materiale.PretRON }}">
+    <p class="formElement">Garantie</p>
+    <input class="formText" type="number" name="garantieM" value="{{ materiale.GarantieLuni }}">
+    <input class="adaugaButton" type="submit" value="Update">
+    </form>
+</div>
 </body>
-</html>
