@@ -1,4 +1,5 @@
-#SOURCE C:/Users/Ivanutzu/Desktop/Proiect BD/script22.sql;
+# SOURCE C:/Users/Ivanutzu/Desktop/Proiect BD/script22_F3.sql;
+#SOURCE C:/Users/X/Desktop/labBD/proiectBD/script22.sql;
 
 
 /*#############################################################*/
@@ -17,7 +18,7 @@ USE materialeDB;
 /*                  PARTEA 2 - CREAREA TABELELOR              */
 
 CREATE TABLE tblAngajati (
-    idAngajat int(3) ZEROFILL NOT NULL,
+    idAngajat int(3) ZEROFILL NOT NULL AUTO_INCREMENT,
     Nume varchar(50) NOT NULL,
     Prenume varchar(50) NOT NULL,
     Functie varchar(50) NOT NULL,
@@ -29,7 +30,7 @@ CREATE TABLE tblAngajati (
 );
 
 CREATE TABLE tblMateriale (
-    idMaterial int NOT NULL,
+    idMaterial int NOT NULL AUTO_INCREMENT,
     ProducatorFK int(3) ZEROFILL NOT NULL,
     RaionFK varchar(5) NOT NULL,
     Denumire varchar(50) NOT NULL,
@@ -40,7 +41,7 @@ CREATE TABLE tblMateriale (
 );
 
 CREATE TABLE tblProducatori (
-    idProducator int(3) ZEROFILL NOT NULL,
+    idProducator int(3) ZEROFILL NOT NULL AUTO_INCREMENT,
     Denumire varchar(50) NOT NULL,
     Sediu varchar(100) NOT NULL,
     Telefon varchar(15) NOT NULL,
@@ -56,7 +57,7 @@ CREATE TABLE tblRaioane (
 );
 
 CREATE TABLE tblResponsabiliRaioane (
-    idResponsabilitate int NOT NULL,
+    idResponsabilitate int NOT NULL AUTO_INCREMENT,
     AngajatFK int(3) ZEROFILL NOT NULL,
     RaionFK varchar(5) NOT NULL,
     TuraLucru date NOT NULL,
@@ -100,20 +101,26 @@ ALTER TABLE tblResponsabiliRaioane ADD CONSTRAINT tblResponsabiliRaioane_tblRaio
 /*#############################################################*/
 /*         PARTEA 3 - INSERAREA INREGISTRARILOR IN TABELE      */
 
-INSERT INTO tblRaioane VALUES('R5', 'Vopsele', 'Interior');
-INSERT INTO tblRaioane VALUES('J2', 'Gradinarit', 'Exterior');
-INSERT INTO tblRaioane VALUES('S4', 'Sanitare', 'Interior');
-INSERT INTO tblRaioane VALUES('E9', 'Electrice', 'Interior');
-INSERT INTO tblRaioane VALUES('P2', 'Parchete', 'Interior');
-INSERT INTO tblRaioane VALUES('Z4', 'Zidarie', 'Interior');
-INSERT INTO tblRaioane VALUES('C9', 'Caramizi', 'Interior');
-INSERT INTO tblRaioane VALUES('C3', 'BCA', 'Interior');
-INSERT INTO tblRaioane VALUES('F5', 'Fier', 'Interior');
-INSERT INTO tblRaioane VALUES('C09', 'Ciment', 'Interior');
-INSERT INTO tblRaioane VALUES('T4', 'Tencuiala', 'Interior');
-INSERT INTO tblRaioane VALUES('E3', 'Gleturi', 'Interior');
-INSERT INTO tblRaioane VALUES('M6', 'Metalurgice', 'Interior');
-INSERT INTO tblRaioane VALUES('C34', 'Chimice', 'Interior');
+INSERT INTO tblRaioane VALUES('A1', 'Vopsele', 'Interior');
+INSERT INTO tblRaioane VALUES('A2', 'Sanitare', 'Interior');
+INSERT INTO tblRaioane VALUES('A3', 'Electrice', 'Interior');
+INSERT INTO tblRaioane VALUES('A4', 'Parchete', 'Interior');
+INSERT INTO tblRaioane VALUES('A5', 'Zidarie', 'Interior');
+INSERT INTO tblRaioane VALUES('B1', 'Caramizi', 'Interior');
+INSERT INTO tblRaioane VALUES('B2', 'BCA', 'Interior');
+INSERT INTO tblRaioane VALUES('B3', 'Fier', 'Interior');
+INSERT INTO tblRaioane VALUES('B4', 'Ciment', 'Interior');
+INSERT INTO tblRaioane VALUES('B5', 'Tencuiala', 'Interior');
+INSERT INTO tblRaioane VALUES('C1', 'Gleturi', 'Interior');
+INSERT INTO tblRaioane VALUES('C2', 'Metalurgice', 'Interior');
+INSERT INTO tblRaioane VALUES('C3', 'Chimice', 'Interior');
+INSERT INTO tblRaioane VALUES('C4', 'Gradinarit', 'Exterior');
+INSERT INTO tblRaioane VALUES('C5', 'Perdele', 'Exterior');
+
+
+
+
+
 
 INSERT INTO tblAngajati VALUES(1,'Ivan','Octavian','Operator Stivuitor','2020-11-10','0760231456','ivan.octavian@yahoo.com',2200);
 INSERT INTO tblAngajati VALUES(2,'Cruceru','Tiberiu','Operator Stivuitor','2020-09-05','0762271251','tibi.cruceru@yahoo.com',2200);
@@ -125,6 +132,10 @@ INSERT INTO tblAngajati VALUES(7,'Stoica','Mihai','Asistent','2020-02-01','07612
 INSERT INTO tblAngajati VALUES(8,'Iordache','Andrei','Asistent','2018-07-05','0763452000','andrei.iordache@yahoo.com',5000);
 INSERT INTO tblAngajati VALUES(9,'Bololoi','Mihaela','Asistent','2019-01-01','0760232454','mihaela.luminita@yahoo.com',4500);
 INSERT INTO tblAngajati VALUES(10,'Ghira','Cristian','Asistent','2020-11-12','0769203456','christighira@yahoo.com',4500);
+INSERT INTO tblAngajati VALUES(11,'Mihailescu','Alina','Asistent','2020-03-12','0724905040','mihalina@gmail.com',4500);
+INSERT INTO tblAngajati VALUES(12,'Slav','Victor','Manager','2017-01-12','0744203456','vslav@hotmail.com',8500);
+
+
 
 INSERT INTO tblProducatori VALUES(1, "Adeplast", "Ploiesti","0789345632", "adeplastRO@yahoo.com");
 INSERT INTO tblProducatori VALUES(2, "Baumit", "Bucuresti", "0350489546", "baumitRO@gmail.com");
@@ -138,29 +149,56 @@ INSERT INTO tblProducatori VALUES(9, "Mapei", "RmValcea", "0350982013", "mapeiRO
 INSERT INTO tblProducatori VALUES(10, "Savana", "Arad", "0789321564", "savana@hotmail.com");
 INSERT INTO tblProducatori VALUES(11, "Carpatcement", "Giurgiu", "0789234981", "carpatcementRO@gmail.com");
 INSERT INTO tblProducatori VALUES(12, "Gardener's supply", "Calarasi", "0729234981", "gardenerRO@gmail.com");
+INSERT INTO tblProducatori VALUES(13, "Resitex", "Satu Mare", "07190321781", "resitexRO@gmail.com");
 
-INSERT INTO tblResponsabiliRaioane VALUES(1,4,'F5','2020-11-25');
-INSERT INTO tblResponsabiliRaioane VALUES(2,3,'R5','2020-11-26');
-INSERT INTO tblResponsabiliRaioane VALUES(3,4,'C3','2020-11-25');
-INSERT INTO tblResponsabiliRaioane VALUES(4,7,'T4','2020-11-24');
-INSERT INTO tblResponsabiliRaioane VALUES(5,10,'F5','2020-11-27');
-INSERT INTO tblResponsabiliRaioane VALUES(6,4,'T4','2020-11-26');
-INSERT INTO tblResponsabiliRaioane VALUES(7,6,'Z4','2020-11-25');
-INSERT INTO tblResponsabiliRaioane VALUES(8,8,'F5','2020-11-28');
-INSERT INTO tblResponsabiliRaioane VALUES(9,9,'S4','2020-11-29');
-INSERT INTO tblResponsabiliRaioane VALUES(10,1,'J2','2020-11-28');
+INSERT INTO tblResponsabiliRaioane VALUES(1,4,'A2','2021-01-25');
+INSERT INTO tblResponsabiliRaioane VALUES(2,3,'B1','2021-01-26');
+INSERT INTO tblResponsabiliRaioane VALUES(3,1,'C5','2021-01-25');
+INSERT INTO tblResponsabiliRaioane VALUES(4,7,'C4','2021-01-24');
+INSERT INTO tblResponsabiliRaioane VALUES(5,11,'A4','2021-01-27');
+INSERT INTO tblResponsabiliRaioane VALUES(6,6,'C3','2021-01-26');
+INSERT INTO tblResponsabiliRaioane VALUES(7,5,'B2','2021-01-25');
+INSERT INTO tblResponsabiliRaioane VALUES(8,2,'B3','2021-01-28');
+INSERT INTO tblResponsabiliRaioane VALUES(9,8,'A5','2021-01-29');
+INSERT INTO tblResponsabiliRaioane VALUES(10,9,'B4','2021-01-28');
+INSERT INTO tblResponsabiliRaioane VALUES(11,9,'C2','2020-02-01');
+INSERT INTO tblResponsabiliRaioane VALUES(12,9,'C1','2020-02-01');
+INSERT INTO tblResponsabiliRaioane VALUES(13,9,'A1','2020-02-02');
+INSERT INTO tblResponsabiliRaioane VALUES(14,9,'A3','2020-02-03');
+INSERT INTO tblResponsabiliRaioane VALUES(15,9,'B5','2020-02-04');
 
-INSERT INTO tblMateriale VALUES(1, 11, "C09", "Ciment++", 400, 18, 0);
-INSERT INTO tblMateriale VALUES(2, 4, "Z4", "CX5", 500, 15, 0);
-INSERT INTO tblMateriale VALUES(3, 7, "M6", "SurubPentruLemn", 1500, 0.5, 12);
-INSERT INTO tblMateriale VALUES(4, 5, "R5", "Lavabila", 15, 20, 3);
-INSERT INTO tblMateriale VALUES(5, 9, "C34", "Vopsea Primer", 18, 100, 3);
-INSERT INTO tblMateriale VALUES(6, 9, "J2", "Pamant de flori", 203, 199.99, 0);
-INSERT INTO tblMateriale VALUES(7, 11, "C09", "Ciment++", 400, 18, 0);
-INSERT INTO tblMateriale VALUES(8, 8, "M6", "Surub stea", 721, 0.3,0);
-INSERT INTO tblMateriale VALUES(9, 10,"R5", "Teflon 20", 89, 89.99,3);
-INSERT INTO tblMateriale VALUES(10,12, "J2", "Grebla", 15, 34.99, 6); 
-INSERT INTO tblMateriale VALUES(11,1, "T4", "AFX-17", 53, 18.99,0); 
+INSERT INTO tblMateriale VALUES(1, 11, "B4", "Ciment++", 400, 18, 0);
+INSERT INTO tblMateriale VALUES(2, 4, "B4", "CX5", 500, 15, 0);
+INSERT INTO tblMateriale VALUES(3, 7, "C2", "SurubPentruLemn", 1500, 0.5, 12);
+############
+INSERT INTO tblMateriale VALUES(4, 5, "A1", "Lavabila", 15, 20, 3);
+INSERT INTO tblMateriale VALUES(5, 9, "A1", "Vopsea Primer", 18, 100, 3);
+INSERT INTO tblMateriale VALUES(6, 9, "C4", "Pamant de flori", 203, 199.99, 0);
+INSERT INTO tblMateriale VALUES(7, 8, "C2", "Surub stea", 721, 0.3,0);
+INSERT INTO tblMateriale VALUES(8, 10,"C2", "Teflon 20", 89, 89.99,3);
+INSERT INTO tblMateriale VALUES(9,12, "C4", "Grebla", 15, 34.99, 6);
+INSERT INTO tblMateriale VALUES(10,1, "C1", "AFX-17", 53, 18.99,0);
+#+15
+INSERT INTO tblMateriale VALUES(11, 8, "C2", "Piulite", 1000, 0.3, 0);
+INSERT INTO tblMateriale VALUES(12, 10, "A1", "Amorsa", 50, 16, 12);
+INSERT INTO tblMateriale VALUES(13, 3, "C3", "Adeziv pt lipire metal", 30, 12, 8);
+INSERT INTO tblMateriale VALUES(14, 6, "A1", "Pensula", 100, 7, 0);
+INSERT INTO tblMateriale VALUES(15, 1, "C1", "Adeplast GM-20", 45, 15, 12);
+INSERT INTO tblMateriale VALUES(16, 8, "C2", "Saiba", 800, 0.4, 0);
+INSERT INTO tblMateriale VALUES(17, 12,"C4", "Lopata", 15, 25, 0);
+INSERT INTO tblMateriale VALUES(18, 11,"B4", "Ciment Structo", 60, 18, 6);
+INSERT INTO tblMateriale VALUES(19, 4, "B5", "Decorativa", 15, 35, 12);
+INSERT INTO tblMateriale VALUES(20, 1, "C1", "Glet Ceresit CT 126", 25, 19, 6);
+INSERT INTO tblMateriale VALUES(21, 7, "B1", "Mortar Sticla", 35, 14, 24);
+INSERT INTO tblMateriale VALUES(22, 13,"C5", "Perdea Atria", 6, 40, 0);
+INSERT INTO tblMateriale VALUES(23, 9, "C1", "Chit de rosturi", 23, 25, 18);
+INSERT INTO tblMateriale VALUES(24, 10,"A1", "Superlavabila interior", 17, 26, 6);
+INSERT INTO tblMateriale VALUES(25, 11, "B2", "Macon", 90, 58, 0);
+INSERT INTO tblMateriale VALUES(26, 13, "A2", "Bideu", 6, 165, 24);
+INSERT INTO tblMateriale VALUES(27, 1, "A5", "Boltar", 500, 25, 0);
+INSERT INTO tblMateriale VALUES(28, 7, "A3", "Prize", 98, 10, 0);
+INSERT INTO tblMateriale VALUES(29, 8, "B3", "Fier-beton", 27, 14, 0);
+INSERT INTO tblMateriale VALUES(30, 3, "A4", "Parchet castan", 40, 27, 12);
 
 /*#############################################################*/
 
