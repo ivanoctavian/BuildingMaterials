@@ -84,6 +84,12 @@ def adauga():
                     (idAn, numeAn, prenumeAn, functieeAn, dataAngajariiAn, telAn, emailAn, salariuAn))
                 print("___app.py / adauga::adauga.html: Angajat added successfully.")
                 mysql.connection.commit()
+                #query='SELECT idAngajat FROM tblAngajati WHERE Nume = %s AND Prenume = %s AND Functie = %s AND Telefon = %s'
+                #curs.execute(query,[numeAn,prenumeAn,functieeAn,telAn])
+                #rez = curs.fetchone()
+                #idAngFK = rez['idAngajat']
+                #query2
+                #queryForResponsRaioane = 'INSERT INTO tblResponsabiliRaioane(AngajatFK, RaionFK, TuraLucru) VALUES(%s, %s, %s)'
                 curs.close()
                 return  redirect(url_for('getAngajati'))
             except Exception as e:
@@ -446,6 +452,8 @@ def logout():
     return redirect(url_for('login'))
 
 #endregion
+
+
 
 if __name__ == '__main__':
 
