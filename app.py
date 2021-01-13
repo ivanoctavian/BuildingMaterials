@@ -296,11 +296,11 @@ def editMaterial(id):
             #sqlBun = ''
             curs.execute(sql, [id])
             res = curs.fetchone()
-            sqlGetProd = "SELECT Denumire FROM tblProducatori"
-            curs.execute(sqlGetProd)
+            sqlGetProd = "SELECT Denumire FROM tblProducatori WHERE Denumire <> %s"
+            curs.execute(sqlGetProd, [res['DenumireProducator']])
             producatorii = curs.fetchall()
-            query0 = 'SELECT Categorie FROM tblRaioane'
-            curs.execute(query0)
+            query0 = 'SELECT Categorie FROM tblRaioane WHERE NOT Categorie = %s'
+            curs.execute(query0,[res['Categorie']])
             varianteCategorie = curs.fetchall()  # de trimis ca parametru
             curs.close()
             return render_template("editMaterial.html", materiale=res, producatori=producatorii, categorii=varianteCategorie)
