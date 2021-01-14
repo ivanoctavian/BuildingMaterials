@@ -178,7 +178,9 @@ def getProducatori():
 
             return render_template('producatori.html', producatori=data)
 #endregion
-
+@app.route('/')
+def index():
+    return render_template('homePage.html')
 #region Materiale CRUD ** NOT DONE **
 @app.route('/materiale', methods=['GET', 'POST'])
 def getMateriale():
@@ -373,10 +375,13 @@ def getMaterialeByCategorie(categorie):
 
 
             a = " SELECT * FROM(SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator',tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil',tblRaioane.Categorie AS 'Categorie' FROM tblResponsabiliRaioane RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK LEFT JOIN tblProducatori   ON tblMateriale.ProducatorFK=tblProducatori.idProducator LEFT JOIN tblAngajati ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion) AS Tabel WHERE Tabel.Categorie = %s   "
+            querySelectCategorii = 'SELECT Categorie FROM tblRaioane'
             curs.execute(a, [categorie])
             materialeDupaCategorie = curs.fetchall()
+            curs.execute(querySelectCategorii)
+            categoriiMateriale = curs.fetchall()
             curs.close()
-            return render_template("categorie.html", materiale=materialeDupaCategorie)
+            return render_template("materiale.html", materiale=materialeDupaCategorie, categorii=categoriiMateriale)
 
 
 
