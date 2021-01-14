@@ -349,6 +349,22 @@ def editMaterial(id):
         print("___app.py / adaugaMaterial::adaugaMaterial.html.html: ____doPost END")
 
 
+@app.route('/categorii', methods=['GET', 'POST'])
+def categoriiMateriale():
+    if request.method =='GET':
+        if session.get('username') is None:
+            print("___app.py / register::register.html: Session clear. Not logged in. Proceed to register.")
+            return redirect(url_for('login'))
+        if session['username']:
+            print("___app.py / register::register.html: User %s logged in. Proceed to categorii.html." % session.__getitem__('username'))
+            curs = mysql.connection.cursor()
+            query = 'SELECT Categorie FROM tblRaioane'
+            curs.execute(query)
+            categorii = curs.fetchall()
+
+            return render_template('categoriiMateriale.html', categoriiM=categorii)
+
+
 @app.route('/categorie/<string:categorie>', methods=['GET', 'POST'])
 def getMaterialeByCategorie(categorie):
     print("___app.py / getMaterialeByCategorie::categorie.html: Start getting data from DB.")
@@ -381,7 +397,7 @@ def getMaterialeByCategorie(categorie):
             curs.execute(querySelectCategorii)
             categoriiMateriale = curs.fetchall()
             curs.close()
-            return render_template("materiale.html", materiale=materialeDupaCategorie, categorii=categoriiMateriale)
+            return render_template("categorie.html", materiale=materialeDupaCategorie)
 
 
 
@@ -393,7 +409,7 @@ def register():
     if request.method =='GET':
         if session.get('username') is None:
             print("___app.py / register::register.html: Session clear. Not logged in. Proceed to register.")
-            return render_template('register.html')
+            return render_template('login.html')
         if session['username']:
             print("___app.py / register::register.html: User %s logged in. Redirect to homePage." % session.__getitem__('username'))
             return redirect(url_for('homePage'))
