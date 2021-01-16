@@ -166,38 +166,38 @@ INSERT INTO tblResponsabiliRaioane VALUES(13,9,'A1','2020-02-02');
 INSERT INTO tblResponsabiliRaioane VALUES(14,9,'A3','2020-02-03');
 INSERT INTO tblResponsabiliRaioane VALUES(15,9,'B5','2020-02-04');
 
-INSERT INTO tblMateriale VALUES(1, 11, "B4", "Ciment++", 400, 18, 0);
-INSERT INTO tblMateriale VALUES(2, 4, "B4", "CX5", 500, 15, 0);
-INSERT INTO tblMateriale VALUES(3, 7, "C2", "SurubPentruLemn", 764, 0.5, 12);
+INSERT INTO tblMateriale VALUES(1, 11, "B4", "Ciment++", 97, 18, 0);
+INSERT INTO tblMateriale VALUES(2, 4, "B4", "CX5", 200, 15, 0);
+INSERT INTO tblMateriale VALUES(3, 7, "C2", "SurubPentruLemn", 104, 0.5, 12);
 ############
-INSERT INTO tblMateriale VALUES(4, 5, "A1", "Lavabila", 15, 20, 3);
+INSERT INTO tblMateriale VALUES(4, 5, "A1", "Lavabila", 15, 85, 3);
 INSERT INTO tblMateriale VALUES(5, 9, "A1", "Vopsea Primer", 18, 100, 3);
 INSERT INTO tblMateriale VALUES(6, 9, "C4", "Pamant de flori", 203, 199.99, 0);
-INSERT INTO tblMateriale VALUES(7, 8, "C2", "Surub stea", 321, 0.3,0);
+INSERT INTO tblMateriale VALUES(7, 8, "C2", "Surub stea", 121, 0.3,0);
 INSERT INTO tblMateriale VALUES(8, 10,"C2", "Teflon 20", 89, 89.99,3);
-INSERT INTO tblMateriale VALUES(9,12, "C4", "Grebla", 15, 34.99, 6);
+INSERT INTO tblMateriale VALUES(9,12, "C4", "Grebla", 25, 34.99, 6);
 INSERT INTO tblMateriale VALUES(10,1, "C1", "AFX-17", 53, 18.99,0);
 #+15
-INSERT INTO tblMateriale VALUES(11, 8, "C2", "Piulite", 467, 0.3, 0);
-INSERT INTO tblMateriale VALUES(12, 10, "A1", "Amorsa", 50, 16, 12);
-INSERT INTO tblMateriale VALUES(13, 3, "C3", "Adeziv pt lipire metal", 30, 12, 8);
+INSERT INTO tblMateriale VALUES(11, 8, "C2", "Piulite", 167, 0.3, 0);
+INSERT INTO tblMateriale VALUES(12, 10, "A1", "Amorsa", 90, 16, 12);
+INSERT INTO tblMateriale VALUES(13, 3, "C3", "Adeziv pt lipire metal", 79, 12, 8);
 INSERT INTO tblMateriale VALUES(14, 6, "A1", "Pensula", 100, 7, 0);
 INSERT INTO tblMateriale VALUES(15, 1, "C1", "Adeplast GM-20", 45, 15, 12);
-INSERT INTO tblMateriale VALUES(16, 8, "C2", "Saiba", 210, 0.4, 0);
+INSERT INTO tblMateriale VALUES(16, 8, "C2", "Saiba", 33, 0.4, 0);
 INSERT INTO tblMateriale VALUES(17, 12,"C4", "Lopata", 15, 25, 0);
 INSERT INTO tblMateriale VALUES(18, 11,"B4", "Ciment Structo", 60, 18, 6);
-INSERT INTO tblMateriale VALUES(19, 4, "B5", "Decorativa", 15, 35, 12);
+INSERT INTO tblMateriale VALUES(19, 4, "B5", "Decorativa", 115, 35, 12);
 INSERT INTO tblMateriale VALUES(20, 1, "C1", "Glet Ceresit CT 126", 25, 19, 6);
-INSERT INTO tblMateriale VALUES(21, 7, "B1", "Mortar Sticla", 35, 14, 24);
-INSERT INTO tblMateriale VALUES(22, 13,"C5", "Perdea Atria", 6, 40, 0);
+INSERT INTO tblMateriale VALUES(21, 7, "B1", "Mortar Sticla", 145, 14, 24);
+INSERT INTO tblMateriale VALUES(22, 13,"C5", "Perdea Atria", 120, 40, 0);
 INSERT INTO tblMateriale VALUES(23, 9, "C1", "Chit de rosturi", 23, 25, 18);
 INSERT INTO tblMateriale VALUES(24, 10,"A1", "Superlavabila interior", 17, 26, 6);
-INSERT INTO tblMateriale VALUES(25, 11, "B2", "Macon", 90, 58, 0);
-INSERT INTO tblMateriale VALUES(26, 13, "A2", "Bideu", 6, 165, 24);
-INSERT INTO tblMateriale VALUES(27, 1, "A5", "Boltar", 500, 25, 0);
+INSERT INTO tblMateriale VALUES(25, 11, "B2", "Macon", 190, 58, 0);
+INSERT INTO tblMateriale VALUES(26, 13, "A2", "Bideu", 25, 165, 24);
+INSERT INTO tblMateriale VALUES(27, 1, "A5", "Boltar", 150, 25, 0);
 INSERT INTO tblMateriale VALUES(28, 7, "A3", "Prize", 98, 10, 0);
-INSERT INTO tblMateriale VALUES(29, 8, "B3", "Fier-beton", 27, 14, 0);
-INSERT INTO tblMateriale VALUES(30, 3, "A4", "Parchet castan", 40, 27, 12);
+INSERT INTO tblMateriale VALUES(29, 8, "B3", "Fier-beton", 197, 14, 0);
+INSERT INTO tblMateriale VALUES(30, 3, "A4", "Parchet castan", 210, 27, 12);
 
 /*#############################################################*/
 
@@ -373,3 +373,5 @@ SELECT * FROM tblUsers WHERE Username=USERNAME;
 END &&
 
 DELIMITER ;
+
+
