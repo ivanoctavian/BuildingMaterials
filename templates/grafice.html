@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="/static/css/style.css">
+<style>
+@font-face {
+  font-family: Lato-Regular;
+  src: url("../static/fonts/Lato-Regular.ttf");
+}
+.right-side {
+  display:flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#myChart{
+height: 600px !important;
+width: 1400px !important;
+}
+
+</style>
+<body>
+<div class="header">
+    <h2 class="header-title">STATISTICI</h2>
+    {% if session['username'] %}
+    <div class="username">
+    <p>{{ session['username'] }}</p>
+    <img class="arrow-down" src="../static/img/arrow-down.svg" alt="arrow-down"/>
+    </div>
+    <div class="logout">
+    <p>{{ session['numePrenume'] }}</p>
+    <p>{{ session['email'] }}</p>
+    <p><a href="/logout">Logout</a></p>
+    </div>
+</div>
+<div class="container">
+    <ul class="left-side">
+            <li>
+                <a href="{{ url_for('homePage') }}">
+                <div class="menuButton">
+                <h4 class="buttonText">Acasa</h4>
+                </div>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('getAngajati') }}">
+                <div class="menuButton">
+                <h4 class="buttonText">Angajati</h4>
+                </div>
+                </a>
+            </li>
+            <li>
+              <a href="{{ url_for('getProducatori') }}">
+              <div class="menuButton">
+              <h4 class="buttonText">Producatori</h4>
+              </div>
+              </a>
+          </li>
+            <li>
+                <a href="{{ url_for('getMateriale') }}">
+                <div class="menuButton">
+                <h4 class="buttonText">Materiale</h4>
+                </div>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('categoriiMateriale') }}">
+                <div class="menuButton">
+                <h4 class="buttonText">Categorii</h4>
+                </div>
+                </a>
+            </li>
+            <li>
+              <a>
+              <div class="menuButton" id="disabled">
+              <h4 class="buttonText">Statistici</h4>
+              </div>
+              </a>
+          </li>
+    </ul>
+    <div class="right-side">
+    <canvas id="myChart"></canvas>
+
+{% endif %}
+
+        </div>
+</div>
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="static/js/dropD.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<script>
+
+var nrTotal=[]
+var categorii=[]
+{% for c in cat %}
+    nrTotal.push('{{ c.NumarTotalUnitati }}')
+    categorii.push('{{ c.Categorie }}')
+console.log('{{ c.Categorie }}')
+{% endfor %}
+//console.log(aa)
+var ctx = document.getElementById('myChart').getContext('2d');
+
+var chartColors = {
+  red: 'rgb(255, 99, 132)',
+  orange: 'rgb(255, 159, 64)',
+  yellow: 'rgb(255, 205, 86)',
+  green: 'rgb(75, 192, 192)',
+  blue: 'rgb(54, 162, 235)',
+  purple: 'rgb(153, 102, 255)',
+  grey: 'rgb(231,233,237)'
+};
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: categorii,
+
+        datasets: [{
+
+            label: 'Numar unitati: ',
+
+             backgroundColor:[
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)',
+            'rgba(255, 99, 132, 0.6)',
+             'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)',
+            'rgba(255, 99, 132, 0.6)',
+             'rgba(255, 206, 86, 0.6)'
+          ],
+            color: 'rgba(255, 255, 255,1)',
+            data: nrTotal,
+            fontSize: 40,
+            zeroLineColor:'rgba(255, 255, 255,1)',
+            grid:'rgba(255, 255, 255,1)',
+
+
+        }]
+    },
+    legend: {
+        fontSize:45
+    },
+    options: {
+        legend: {
+            display: false,
+
+         },
+        tooltips:{
+            titleFontSize:20,
+            bodyFontSize:20
+        },
+        scales: {
+          xAxes: [{
+            gridLines: {
+              color: 'rgba(171,171,171,1)',
+              lineWidth: 1
+            },
+              ticks: {fontSize: 28,
+                      fontColor : 'rgba(171,171,171,1)'}
+
+          }],
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              max: 750,
+              min: 0,
+              stepSize: 250,
+                fontSize:40,
+                fontColor : 'rgba(171,171,171,1)'
+            },
+            gridLines: {
+              color: 'rgba(171,171,171,1)',
+              lineWidth: 0.5
+            }
+          }]
+        }
+    }
+});
+
+
+    </script>
+</html>
