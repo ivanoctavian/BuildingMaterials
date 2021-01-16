@@ -1,0 +1,236 @@
+body {
+  font-family: Lato-Regular;
+  margin: 0;
+  padding: 0;
+  background: #2a3a49;
+}
+.header {
+  position: relative;
+  top: 0;
+  height: 60px;
+  width: 100%;
+  background: #f9d230;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 100px;
+}
+.header-title {
+  padding-left: 50px;
+  color: white;
+  letter-spacing: 4px;
+}
+.username {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 1%;
+  cursor: pointer;
+  padding: 10px 5px 10px 5px;
+  border: 2px solid black;
+}
+.username > p {
+  margin: 0;
+}
+.arrow-down {
+  height: 15px;
+  width: 15px;
+  margin-left: 5px;
+}
+.logout {
+  position: absolute;
+  top: 86%;
+  right: 1%;
+  background: white;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.logout > * {
+  padding: 15px;
+  margin: 0;
+}
+.logout > *:not(:last-child) {
+  border-bottom: 2px solid #d3d3d3;
+}
+.logout > * > a {
+  text-decoration: none;
+  color: black;
+}
+.submitButton {
+  width: 100%;
+  border: 2px solid #f9d230;
+  background: transparent;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #f9d230;
+  border-radius: 5px;
+}
+.formContainer {
+  position: absolute;
+  width: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.formElement {
+  margin: 0;
+  font-size: 14px;
+  color: white;
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: white;
+  background-image: none;
+  flex: 1;
+  padding: 5px;
+  color: black;
+  cursor: pointer;
+  font-size: 16px;
+}
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  line-height: 3;
+  overflow: hidden;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+.select-wrapper::after {
+  content: "\25BC";
+  top: 0;
+  right: 0;
+  padding: 0 10px;
+  background: #f9d230;
+  cursor: pointer;
+  pointer-events: none;
+  transition: 0.25s all ease;
+}
+.container {
+  display: flex;
+}
+.left-side {
+  list-style: none;
+}
+.left-side li {
+  margin-bottom: 20px;
+}
+.menuButton {
+  width: 200px;
+  height: 35px;
+  background: #f9d230;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.menuButton#disabled {
+  background: white;
+  cursor: default;
+}
+.menuButton#disabled h4 {
+  color: #f9d230;
+}
+a {
+  text-decoration: none;
+}
+.buttonText {
+  color: white;
+}
+.right-side-header {
+  background: #f9d230;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 25px 0 25px;
+  color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+tr > td {
+  background: white;
+}
+.table-header {
+  background: #f9d230;
+}
+td,
+th {
+  padding: 8px;
+}
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  color: white;
+}
+td {
+  border-bottom: 1px solid #d3d3d3;
+  text-align: center;
+}
+tr:not(:first-child):hover {
+  text-shadow: 0px 0px 1.5px black;
+}
+tr:nth-of-type(even) > td {
+  background: #e8e8e8;
+}
+tr:nth-of-type(even) > td.td-button {
+  background: transparent;
+}
+td.td-button {
+  background: transparent;
+  border: 0;
+}
+a.td-button-link,
+.button-adauga {
+  color: white;
+  padding: 6px 10px 6px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+a#edit {
+  background: #add8e6;
+}
+a#delete {
+  background: #f9826c;
+}
+.button-adauga > a {
+  /*margin: 0 auto;*/
+  margin-right: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #40c463;
+  color: white;
+  border: 0;
+  padding: 10px 15px 10px 15px;
+  cursor: pointer;
+  outline: none;
+  border-radius: 5px;
+  font-family: Lato-Regular;
+  font-size: 16px;
+  margin-bottom: 50px;
+}
