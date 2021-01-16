@@ -70,7 +70,7 @@ CREATE TABLE tblUsers(
 	Prenume VARCHAR(50),
 	Email VARCHAR(50),
 	Password VARCHAR(200) NOT NULL,
-	PRIMARY KEY (idUser, username)
+	PRIMARY KEY (idUser)
 
 );
 ALTER TABLE tblMateriale ADD CONSTRAINT tblMateriale_tblProducatori FOREIGN KEY tblMateriale_tblProducatori (ProducatorFK)
@@ -92,6 +92,8 @@ ALTER TABLE tblResponsabiliRaioane ADD CONSTRAINT tblResponsabiliRaioane_tblRaio
     REFERENCES tblRaioane (idRaion)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
+
+
 
 /*#############################################################*/
 
@@ -116,9 +118,6 @@ INSERT INTO tblRaioane VALUES('C2', 'Metalurgice', 'Interior');
 INSERT INTO tblRaioane VALUES('C3', 'Chimice', 'Interior');
 INSERT INTO tblRaioane VALUES('C4', 'Gradinarit', 'Exterior');
 INSERT INTO tblRaioane VALUES('C5', 'Perdele', 'Exterior');
-
-
-
 
 
 
@@ -202,8 +201,6 @@ INSERT INTO tblMateriale VALUES(30, 3, "A4", "Parchet castan", 40, 27, 12);
 
 /*#############################################################*/
 
-
-
 /*#############################################################*/
 /*  PARTEA 4 - VIZUALIZAREA STUCTURII BD SI A INREGISTRARILOR  */
 DESCRIBE tblAngajati;
@@ -212,10 +209,164 @@ DESCRIBE tblRaioane;
 DESCRIBE tblMateriale;
 DESCRIBE tblResponsabiliRaioane;
 
+
+
 SELECT * FROM tblAngajati;
 SELECT * FROM tblProducatori;
 SELECT * FROM tblRaioane;
 SELECT * FROM tblMateriale;
 SELECT * FROM tblResponsabiliRaioane;
-SELECT * FROM tblUsers;
+
+
+/*############## PROCEDURI ###############*/
+
+/*###########PROCEDURI PRODUCATORI############*/
+ DELIMITER &&
+ CREATE PROCEDURE getProducatori ()
+ BEGIN
+ SELECT * FROM tblProducatori;
+ END &&
+
+ CREATE PROCEDURE adaugaProducator(DenumireP VARCHAR(50), SediuP VARCHAR(100), TelefonP VARCHAR(15), EmailP VaRCHAR(50))
+ BEGIN
+ INSERT INTO tblProducatori (Denumire, Sediu, Telefon, Email) VALUES (DenumireP, SediuP, TelefonP, EmailP);
+ COMMIT;
+ END &&
+
+ CREATE PROCEDURE getProducatorById(ID INT)
+ BEGIN
+ SELECT * FROM tblProducatori WHERE idProducator=ID;
+ END &&
+
+ CREATE PROCEDURE updateProducatorById(DenumireP VARCHAR(50), SediuP VARCHAR(100), TelefonP VARCHAR(15), EmailP VaRCHAR(50), ID INT)
+ BEGIN
+ UPDATE tblProducatori SET Denumire = DenumireP, Sediu = SediuP, Telefon = TelefonP, Email = EmailP WHERE idProducator = ID;
+ COMMIT;
+ END &&
+
+ CREATE PROCEDURE deleteProducatorById(ID INT)
+ BEGIN
+ DELETE FROM tblProducatori WHERE idProducator = ID;
+ COMMIT;
+ END &&
+
+ /*  PROCEDURI MATERIALE  */
+ /*  GET MATERIALE */
+
+ CREATE PROCEDURE getMaterialeWithInfo ()
+ BEGIN
+ SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator',
+                      tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON',
+					  tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil',
+					  tblRaioane.Categorie AS 'Categorie'
+                      FROM tblResponsabiliRaioane
+                      RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK
+                      LEFT JOIN tblProducatori
+                      ON tblMateriale.ProducatorFK=tblProducatori.idProducator
+                      LEFT JOIN tblAngajati
+                      ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat
+                      LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion;
+ END &&
+
+/*  ADAUGA MATERIAL  */
+ CREATE PROCEDURE adaugaMaterial(ProdFK INT, RaiFK VARCHAR(5), Den VARCHAR(50), Unit INT, Pret decimal(7,2), Garantie INT)
+ BEGIN
+ INSERT INTO tblMateriale(ProducatorFK, RaionFK, Denumire, Unitati, PretRON, GarantieLUNI) VALUES
+ (ProdFK, RaiFK, Den, Unit, Pret, Garantie);
+ COMMIT;
+ END &&
+
+
+/* GET ONE MATERIAL BY ID   */
+CREATE PROCEDURE getMaterialById(ID INT)
+BEGIN
+SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator',
+				   tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati',
+				   tblMateriale.PretRON AS 'PretRON', tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',
+				   tblAngajati.Telefon AS 'TelefonResponsabil', tblRaioane.Categorie AS 'Categorie'
+                   FROM tblResponsabiliRaioane
+                   RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK
+                   LEFT JOIN tblProducatori
+                   ON tblMateriale.ProducatorFK=tblProducatori.idProducator
+                   LEFT JOIN tblAngajati
+                   ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat
+                   LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion WHERE idMaterial = ID;
+END &&
+
+/*  UPDATE ONE MATERIAL BY ID  */
+CREATE PROCEDURE updateMaterialById(ProdFK INT, RaiFK VARCHAR(5), Den VARCHAR(50), Unit INT, Pret decimal(7,2), Garantie INT, ID INT)
+BEGIN
+UPDATE tblMateriale SET ProducatorFK = ProdFK, RaionFK = RaiFK, Denumire = Den, Unitati = Unit, PretRON = Pret, GarantieLuni = Garantie WHERE idMaterial = ID;
+COMMIT;
+END &&
+
+/* DELETE MATERIAL BY ID*/
+CREATE PROCEDURE deleteMaterialById(ID INT)
+BEGIN
+DELETE FROM tblMateriale WHERE idMaterial = ID;
+COMMIT;
+END &&
 /*#############################################################*/
+
+
+/*###########PROCEDURI ANGAJATI ############*/
+/* GET ALL ANGAJATI */
+CREATE PROCEDURE getAngajati()
+BEGIN
+#SELECT tblAngajati.idAngajat as 'idAngajat', tblAngajati.Nume AS 'Nume',
+#tblAngajati.Prenume AS 'Prenume', tblAngajati.Functie as 'Functie',
+#tblAngajati.DataAngajarii as 'DataAngajarii', tblAngajati.Telefon as 'Telefon',
+#tblAngajati.Email as 'Email', tblAngajati.SalariuRON as 'SalariuRON', tblResponsabiliRaioane.RaionFK as 'Raion'
+#FROM tblAngajati
+#RIGHT JOIN tblResponsabiliRaioane
+#ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat;
+SELECT * FROM tblAngajati;
+END &&
+
+/*  GET ANGAJAT BY ID*/
+CREATE PROCEDURE getAngajatById(ID INT)
+BEGIN
+SELECT * FROM tblAngajati WHERE idAngajat=ID;
+END &&
+
+/* UPDATE ANGAJAT*/
+CREATE PROCEDURE updateAngajatById(NumeAN VARCHAR(50), PrenumeAN VARCHAR(50), FunctieAN VARCHAR(50),
+ DataAngAN date, TelAN VARCHAR(15), EmailAN VARCHAR(50), SalariuAN INT, ID INT)
+ BEGIN
+UPDATE tblAngajati SET Nume=NumeAN, Prenume=PrenumeAN, Functie=FunctieAN, DataAngajarii=DataAngAN,Telefon=TelAN,
+ Email=EmailAN, SalariuRON=SalariuAN WHERE idAngajat=ID;
+COMMIT;
+END &&
+
+/* ADAUGA ANGAJAT */
+CREATE PROCEDURE adaugaAngajat(NumeAN VARCHAR(50), PrenumeAN VARCHAR(50), FunctieAN VARCHAR(50),
+ DataAngAN date, TelAN VARCHAR(15), EmailAN VARCHAR(50), SalariuAN INT )
+ BEGIN
+ INSERT INTO tblAngajati( Nume, Prenume, Functie, DataAngajarii, Telefon, Email, SalariuRON) VALUES
+					    (NumeAN, PrenumeAN, FunctieAN, DataAngAN, TelAN, EmailAN, SalariuAN);
+ COMMIT;
+ END &&
+
+ /*  DELETE ANGAJAT*/
+CREATE PROCEDURE deleteAngajatById(ID INT)
+BEGIN
+DELETE FROM tblAngajati WHERE idAngajat=ID;
+COMMIT;
+END &&
+
+
+
+/* REGISTER */
+CREATE PROCEDURE register(USERNAME VARCHAR(50), NUME VARCHAR(50), PRENUME VARCHAR(50), EMAIL VARCHAR(50), PWD VARCHAR(200) )
+BEGIN
+INSERT INTO tblUsers (Username, Nume, Prenume, Email, Password) VALUES (USERNAME, NUME, PRENUME, EMAIL, PWD);
+COMMIT;
+END &&
+
+/* LOGIN */
+CREATE PROCEDURE login(USERNAME VARCHAR(50) )
+BEGIN
+SELECT * FROM tblUsers WHERE Username=USERNAME;
+END &&
+
+DELIMITER ;
