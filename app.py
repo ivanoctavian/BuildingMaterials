@@ -411,8 +411,15 @@ def categoriiMateriale():
             query = 'SELECT Categorie FROM tblRaioane'
             curs.execute(query)
             categorii = curs.fetchall()
+            q2 = "SELECT tblRaioane.Categorie, SUM(Unitati) as 'NumarTotalUnitati' FROM tblMateriale " \
+                 "RIGHT JOIN tblRaioane ON tblMateriale.RaionFK = tblRaioane.idRaion " \
+                 "GROUP BY tblRaioane.Categorie;"
+            curs.execute(q2)
 
-            return render_template('categoriiMateriale.html', categoriiM=categorii)
+            categoriiForChart = curs.fetchall()
+            print(categoriiForChart)
+
+            return render_template('categoriiMateriale.html', categoriiM=categorii, cat=categoriiForChart)
 
 
 @app.route('/categorie/<string:categorie>', methods=['GET', 'POST'])
@@ -442,10 +449,13 @@ def getMaterialeByCategorie(categorie):
 
             a = " SELECT * FROM(SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator',tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil',tblRaioane.Categorie AS 'Categorie' FROM tblResponsabiliRaioane RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK LEFT JOIN tblProducatori   ON tblMateriale.ProducatorFK=tblProducatori.idProducator LEFT JOIN tblAngajati ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion) AS Tabel WHERE Tabel.Categorie = %s   "
             querySelectCategorii = 'SELECT Categorie FROM tblRaioane'
+
+
             curs.execute(a, [categorie])
             materialeDupaCategorie = curs.fetchall()
             curs.execute(querySelectCategorii)
             categoriiMateriale = curs.fetchall()
+
             curs.close()
             return render_template("categorie.html", materiale=materialeDupaCategorie)
 
@@ -596,10 +606,8 @@ def login():
             if bcrypt.hashpw(passLogin, userInfo['Password'].encode('utf-8')) == userInfo['Password'].encode('utf-8'):
 
                 session['username'] = userInfo['Username']
-                session['numePrenume'] = userInfo['Nume'] + userInfo['Prenume']
-
-
-
+                session['numePrenume'] = userInfo['Nume'] + "    " + userInfo['Prenume']
+                session['email'] = userInfo['Email']
                 session['authenticated'] = True
                 print("___app.py / login::login.html: Login success. Username: %s. Redirect to homePage." % session.__getitem__('username'))
                 return redirect(url_for('homePage'))
