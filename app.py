@@ -15,7 +15,6 @@ app.config['MYSQL_CURSORCLASS'] = db['mysql_cursorclass']
 mysql = MySQL(app)
 #endregion
 
-
 #region Angajati CRUD ** DONE **
 # DONE
 @app.route('/angajati', methods=['GET', 'POST'])
@@ -40,15 +39,15 @@ def getAngajati():
 
             return render_template('angajati.html', angajati=data)
 
-# DONE; mai trebuie sa fac in sql autoincrementul si nu va mai trebui sa adaugam id-ul manual
+# DONE
 @app.route('/adauga', methods=['GET', 'POST'])
 def adauga():
     if request.method == "GET":
         if session.get('username') is None:
-            print("___app.py / editAngajat::editAngajat.html: Not logged in. Redirect to login.")
+            print("___app.py / adauga::adauga..html: Not logged in. Redirect to login.")
             return redirect(url_for('login'))
         if session['username']:
-            print("___app.py / login::login.html: User %s logged in. Redirect to homePage." % session.__getitem__('username'))
+            print("___app.py / adauga::.html: User %s logged in. Proceed to adauga.html." % session.__getitem__('username'))
             curs = mysql.connection.cursor()
             query0 = 'SELECT idRaion FROM tblRaioane'
             curs.execute(query0)
@@ -77,20 +76,12 @@ def adauga():
 
         salariuAn       = request.form['salariu']
         print("___app.py / adauga::adauga.html: Salariu to be added: "+salariuAn)
-        raionAn           = request.form['raion']
-        turaAn          = request.form['tura']
 
         try:
             curs = mysql.connection.cursor()
             print("___app.py / adauga::adauga.html: ____CONEXIUNE OK DB____")
             try:
                 curs.callproc('adaugaAngajat',[numeAn, prenumeAn, functieeAn, dataAngajariiAn, telAn, emailAn, salariuAn])
-                #query0 = 'SELECT idAngajat FROM tblAngajati WHERE Nume=%s AND Prenume=%s AND Functie=%s AND DataAngajarii=%s AND Telefon=%s AND Email=%s'
-                #curs.execute(query0,[numeAn,prenumeAn,functieeAn,dataAngajariiAn,telAn,emailAn])
-                #angajat = curs.fetchone()
-                #query1 = 'INSERT INTO tblResponsabiliRaioane(AngajatFK, RaionFK, TuraLucru) VALUES (%s, %s, %s )'
-                #curs.execute(query1,[angajat['idAngajat'],raionAn,turaAn])
-                #mysql.connection.commit()
                 curs.close()
 
                 print("___app.py / adauga::adauga.html: Angajat added successfully.")
@@ -152,7 +143,7 @@ def deleteAngajat(id):
             return redirect(url_for('getAngajati'))
 #endregion
 
-#region Producatori CRUD DONE
+#region Producatori ** CRUD DONE **
 @app.route('/producatori', methods=['GET', 'POST'])
 def getProducatori():
     print("___app.py / getProducatori::producatori.html: Start getting data from DB.")
@@ -165,9 +156,6 @@ def getProducatori():
                 curs = mysql.connection.cursor()
                 curs.callproc('getProducatori')
                 data = curs.fetchall()
-                # pentru a vedea atributele unui obiect:
-                #for ang in data:
-                 #   print(ang['idAngajat'])
                 print('___app.py / getProducatori::producatori.html: FETCH DONE.')
                 curs.close()
             except Exception as e:
@@ -179,10 +167,10 @@ def getProducatori():
 def adaugaProducator():
     if request.method == "GET":
         if session.get('username') is None:
-            print("___app.py / editAngajat::editAngajat.html: Not logged in. Redirect to login.")
+            print("___app.py / adaugaProducator::adaugaProducator.html: Not logged in. Redirect to login.")
             return redirect(url_for('login'))
         if session['username']:
-            print("___app.py / login::login.html: User %s logged in. Redirect to homePage." % session.__getitem__('username'))
+            print("___app.py / adaugaProducator::adaugaProducator.html: User %s logged in. Proceed to adaugaProducator.html." % session.__getitem__('username'))
             curs = mysql.connection.cursor()
             curs.close()
             return render_template('adaugaProducator.html')
@@ -195,35 +183,29 @@ def adaugaProducator():
 
         try:
             curs = mysql.connection.cursor()
-            print("___app.py / adauga::adauga.html: ____CONEXIUNE OK DB____")
+            print("___app.py / adaugaProducator::adaugaProducator.html: ____CONEXIUNE OK DB____")
             try:
                 curs.callproc('adaugaProducator',[denumireP,sediuP,telefonP,emailP])
-                #query0 = 'SELECT idAngajat FROM tblAngajati WHERE Nume=%s AND Prenume=%s AND Functie=%s AND DataAngajarii=%s AND Telefon=%s AND Email=%s'
-                #curs.execute(query0,[numeAn,prenumeAn,functieeAn,dataAngajariiAn,telAn,emailAn])
-                #angajat = curs.fetchone()
-                #query1 = 'INSERT INTO tblResponsabiliRaioane(AngajatFK, RaionFK, TuraLucru) VALUES (%s, %s, %s )'
-                #curs.execute(query1,[angajat['idAngajat'],raionAn,turaAn])
-                #mysql.connection.commit()
                 curs.close()
 
-                print("___app.py / adauga::adauga.html: Angajat added successfully.")
+                print("___app.py / adaugaProducator::adaugaProducator.html: Producator added successfully.")
                 curs.close()
                 return  redirect(url_for('getProducatori'))
             except Exception as e:
-                print("ERROR___app.py / adauga::adauga.html: ____EROARE ADAUGARE____::", e)
+                print("ERROR___app.py / adaugaProducator::adaugaProducator.html: ____EROARE ADAUGARE____::", e)
                 # print(traceback.print_exc())
         except Exception as e:
-            print("ERROR___app.py / adauga::adauga.html: ____EROARE CONEXIUNE DB____")
-            print("ERROR___app.py / adauga::adauga.html: ____EROARE CONEXIUNE DB____::",e)
+            print("ERROR___app.py / adaugaProducator::adaugaProducator.html: ____EROARE CONEXIUNE DB____")
+            print("ERROR___app.py / adaugaProducator::adaugaProducator.html: ____EROARE CONEXIUNE DB____::",e)
 
-        print("___app.py / adauga::adauga.html: ____doPost END")
+        print("___app.py / adaugaProducator::adaugaProducator.html: ____doPost END")
 
 @app.route('/editProducator/<string:id>', methods=['GET','POST'])
 def editProducator(id):
     curs = mysql.connection.cursor()
     if request.method == "GET":
         if session.get('username') is None:
-            print("___app.py / editAngajat::editAngajat.html: Not logged in. Redirect to login.")
+            print("___app.py / editProducator::editProducator.html: Not logged in. Redirect to login.")
             return redirect(url_for('login'))
         if session['username']:
             curs.callproc('getProducatorById', [id])
@@ -241,10 +223,10 @@ def editProducator(id):
 
             curs.callproc('updateProducatorById',[denumireUpd, sediuUpd, telefonUpd,emailUpd, id])
             curs.close()
-            print("___app.py / editAngajat::editAngajat.html: Update done.")
+            print("___app.py / editProducator::editProducator.html: Update done.")
             return redirect(url_for('getProducatori'))
         except Exception as e:
-            print("ERROR___app.py / editAngajat::editAngajat.html: ")
+            print("ERROR___app.py / editProducator::editProducator.html: ")
             print(e)
 
 @app.route('/deleteProducator/<string:id>', methods=['GET', 'POST'])
@@ -252,17 +234,17 @@ def deleteProducator(id):
     curs = mysql.connection.cursor()
     if request.method == "GET":
         if session.get('username') is None:
-            print("___app.py / deleteAngajat::deleteAngajat.html: Not logged in. Redirect to login.")
+            print("___app.py / deleteProducator::deleteProducator.html: Not logged in. Redirect to login.")
             return redirect(url_for('login'))
         if session['username']:
             curs.callproc('deleteProducatorById', [id])
             curs.close()
-            print("___app.py / deleteAngajat::deleteAngajat.html: idProducator %s deleted." % id)
+            print("___app.py / deleteProducator::deleteProducator.html: idProducator %s deleted." % id)
             return redirect(url_for('getProducatori'))
 
 #endregion DONE
 
-#region Materiale CRUD ** NOT DONE **
+#region Materiale CRUD ** DONE **
 @app.route('/materiale', methods=['GET', 'POST'])
 def getMateriale():
     print("___app.py / getMateriale::materiale.html: Start getting data from DB.")
@@ -365,7 +347,7 @@ def editMaterial(id):
             # return render_template('homePage.html')
 
     if request.method == 'POST':
-        print("___app.py / adaugaMaterial::adaugaMaterial.html: doPost STARTED")
+        print("___app.py / editMaterial::editMaterial.html: doPost STARTED")
         numeProducator = request.form['numeP']
         categorie = request.form['categorieM']
         denumire = request.form['denumireM']
@@ -386,27 +368,27 @@ def editMaterial(id):
                 raion = curs.fetchone()
                 idRaion = raion['idRaion']
                 curs.callproc('updateMaterialById',[idProducator, idRaion, denumire, unitati, pret, garantie, id ])
-                print("___app.py / adaugaMaterial::adaugaMaterial.html: Material added successfully.")
+                print("___app.py / editMaterial::editMaterial.html: Material added successfully.")
                 curs.close()
                 return redirect(url_for('getMateriale'))
             except Exception as e:
-                print("ERROR___app.py / adaugaMaterial::adaugaMaterial.html: ____EROARE ADAUGARE____::", e)
+                print("ERROR___app.py / editMaterial::editMaterial.html: ____EROARE ADAUGARE____::", e)
                 # print(traceback.print_exc())
         except Exception as e:
-            print("ERROR___app.py / adaugaMaterial::adaugaMaterial.html: ____EROARE CONEXIUNE DB____")
-            print("ERROR___app.py / adaugaMaterial::adaugaMaterial.html: ____EROARE CONEXIUNE DB____::", e)
+            print("ERROR___app.py / editMaterial::editMateriall.html: ____EROARE CONEXIUNE DB____")
+            print("ERROR___app.py / editMaterial::editMaterial.html: ____EROARE CONEXIUNE DB____::", e)
 
-        print("___app.py / adaugaMaterial::adaugaMaterial.html.html: ____doPost END")
+        print("___app.py / editMaterial::editMaterial.html.html: ____doPost END")
 
 
 @app.route('/categorii', methods=['GET', 'POST'])
 def categoriiMateriale():
     if request.method =='GET':
         if session.get('username') is None:
-            print("___app.py / register::register.html: Session clear. Not logged in. Proceed to register.")
+            print("___app.py / categorii::categorii.html: Session clear. Not logged in. Proceed to register.")
             return redirect(url_for('login'))
         if session['username']:
-            print("___app.py / register::register.html: User %s logged in. Proceed to categorii.html." % session.__getitem__('username'))
+            print("___app.py / categorii::categorii.html: User %s logged in. Proceed to categorii.html." % session.__getitem__('username'))
             curs = mysql.connection.cursor()
             query = 'SELECT Categorie FROM tblRaioane'
             curs.execute(query)
@@ -433,28 +415,32 @@ def getMaterialeByCategorie(categorie):
 
         if session['username']:
             curs = mysql.connection.cursor()
-            queryFinal  =     "SELECT * FROM(SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator'," \
-                              "tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', " \
-                              "tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil'," \
-                              " tblRaioane.Categorie AS 'Categorie' " \
-                              " FROM tblResponsabiliRaioane " \
-                              "RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK " \
-                              "LEFT JOIN tblProducatori " \
-                              "ON tblMateriale.ProducatorFK=tblProducatori.idProducator" \
-                              " LEFT JOIN tblAngajati " \
-                              "ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat" \
-                              " LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion) AS Tabel" \
-                              "WHERE Tabel.Categorie = %s;"
+            # queryFinal  =     "SELECT * FROM(SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator'," \
+            #                   "tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', " \
+            #                   "tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil'," \
+            #                   " tblRaioane.Categorie AS 'Categorie' " \
+            #                   " FROM tblResponsabiliRaioane " \
+            #                   "RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK " \
+            #                   "LEFT JOIN tblProducatori " \
+            #                   "ON tblMateriale.ProducatorFK=tblProducatori.idProducator" \
+            #                   " LEFT JOIN tblAngajati " \
+            #                   "ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat" \
+            #                   " LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion) AS Tabel" \
+            #                   "WHERE Tabel.Categorie = %s;"
 
 
-            a = " SELECT * FROM(SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator',tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil',tblAngajati.Telefon AS 'TelefonResponsabil',tblRaioane.Categorie AS 'Categorie' FROM tblResponsabiliRaioane RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK LEFT JOIN tblProducatori   ON tblMateriale.ProducatorFK=tblProducatori.idProducator LEFT JOIN tblAngajati ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion) AS Tabel WHERE Tabel.Categorie = %s   "
-            querySelectCategorii = 'SELECT Categorie FROM tblRaioane'
-
-
+            a = " SELECT * FROM(SELECT idMaterial, tblMateriale.Denumire AS 'DenumireMaterial',tblProducatori.Denumire AS 'DenumireProducator'," \
+                "tblMateriale.RaionFK AS 'Raion', tblMateriale.Unitati AS 'Unitati', tblMateriale.PretRON AS 'PretRON', " \
+                "tblMateriale.GarantieLuni AS 'GarantieLuni',tblAngajati.Nume AS 'NumeResponsabil'," \
+                "tblAngajati.Telefon AS 'TelefonResponsabil',tblRaioane.Categorie AS 'Categorie' " \
+                "FROM tblResponsabiliRaioane RIGHT JOIN tblMateriale ON tblResponsabiliRaioane.RaionFK=tblMateriale.RaionFK " \
+                "LEFT JOIN tblProducatori   ON tblMateriale.ProducatorFK=tblProducatori.idProducator " \
+                "LEFT JOIN tblAngajati ON tblResponsabiliRaioane.AngajatFK=tblAngajati.idAngajat " \
+                "LEFT JOIN tblRaioane ON tblMateriale.RaionFK=tblRaioane.idRaion) " \
+                "AS Tabel WHERE Tabel.Categorie = %s "
             curs.execute(a, [categorie])
             materialeDupaCategorie = curs.fetchall()
-            curs.execute(querySelectCategorii)
-            categoriiMateriale = curs.fetchall()
+
 
             curs.close()
             return render_template("categorie.html", materiale=materialeDupaCategorie)
@@ -470,11 +456,27 @@ def deleteMaterial(id):
         if session['username']:
             curs.callproc('deleteMaterialById',[id])
             curs.close()
-            print("___app.py / deleteAngajat::deleteAngajat.html: idAngajat %s deleted." % id)
+            print("___app.py / deleteMaterial::deleteMaterial.html: idAngajat %s deleted." % id)
             return redirect(url_for('getMateriale'))
+
+
+@app.route('/grafice', methods=['GET'])
+def getGrafice():
+    if request.method =='GET':
+        if session.get('username') is None:
+            print("___app.py / grafice::grafice.html: Session clear. Not logged in. Proceed to login.")
+            return redirect(url_for('login'))
+        if session['username']:
+            print("___app.py / grafice::grafice.html: User %s logged in. Proceed to grafice.html." % session.__getitem__('username'))
+            curs = mysql.connection.cursor()
+            q2 = "SELECT tblRaioane.Categorie, SUM(Unitati) as 'NumarTotalUnitati' FROM tblMateriale " \
+                 "RIGHT JOIN tblRaioane ON tblMateriale.RaionFK = tblRaioane.idRaion " \
+                 "GROUP BY tblRaioane.Categorie;"
+            curs.execute(q2)
+            categoriiForChart = curs.fetchall()
+            curs.close()
+            return render_template('grafice.html', cat=categoriiForChart)
 #endregion
-
-
 
 #region Login, Logout, Register, Homepage ** DONE **
 # DONE
@@ -503,19 +505,14 @@ def register():
         hash_pwd = bcrypt.hashpw(passwordN, bcrypt.gensalt())
         curs = mysql.connection.cursor()
         try:
-            #curs.execute('INSERT INTO tblUsers (Username, Nume, Prenume, Email, Password) VALUES (%s, %s, %s, %s, %s)',
-            #             ([userN, numeN, prenumeN, emailN, hash_pwd]))
-            #mysql.connection.commit()
             curs.callproc('register',[userN, numeN, prenumeN, emailN, hash_pwd])
             curs.close()
             eroareRegister = "OK"
             session['reg']='OK'
-            #return 'register success'
             print("___app.py / register::register.html: Register success. Username: %s." % [userN])
             session.clear()
             print("___app.py / register::register.html: CLEARING SESSION. PROCEED TO LOGIN. ")
             return redirect(url_for('login'))
-            #return render_template('register.html', eroareHTML=eroareRegister)
         except Exception as e:
             print("___app.py / register::register.html: Error down.")
             print(e)
@@ -524,14 +521,7 @@ def register():
                 print("___app.py / register::register.html: Username already exists in table.")
 
                 session['reg'] = '1062'
-                #return render_template('register.html', eroareHTML='MUIE')
-                #return 'username already exists'
                 return redirect(url_for('register'))
-                #return render_template('register.html')
-    #return render_template('register.html', eroareHTML='MUIE')
-
-       # session['username'] = userN
-        #return redirect(url_for('homePage'))
 
 # DONE
 @app.route('/homePage', methods=['GET', 'POST'])
@@ -543,60 +533,26 @@ def homePage():
         if session['username']:
             print('___app.py / homePage::homePage.html: USER %s LOGGED IN.' % session.__getitem__('username') )
             return render_template('homePage.html')
-    # if request.method == 'GET':
-    #     return render_template('homePage.html')
-    # else:
-    #     userLogin = request.form['userLog']
-    #     passLogin = request.form['pwdLog'].encode('utf-8')
-    #     curs = mysql.connection.cursor()
-    #
-    #     curs.execute("SELECT * FROM tblUsers WHERE Username=%s", ([userLogin]))
-    #     userInfo = curs.fetchone()
-    #
-    #     curs.close()
-    #     # print(userInfo['password'])
-    #     session['para'] = ""
-    #     if len(userLogin) > 0:
-    #         if userInfo == None:
-    #             session['para'] = "NOTEXIST"
-    #             return redirect(url_for('homePage'))
-    #
-    #             #return 'user doesnt exist'
-    #         if bcrypt.hashpw(passLogin, userInfo['Password'].encode('utf-8')) == userInfo['Password'].encode('utf-8'):
-    #             session['username'] = userInfo['Username']
-    #             session['authenticated'] = True
-    #             return redirect(url_for('homePage'))
-    #         else:
-    #             session['para'] = "FAILED"
-    #             return redirect(url_for('homePage'))
-    #             #return 'login failed'
 
 # DONE
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-
         if session.get('username') is None:
             print("___app.py / login::login.html: User not logged in.")
             return render_template('login.html')
         if session['username']:
             print("___app.py / login::login.html: User %s logged in. Redirect to homePage." % session.__getitem__('username'))
             return redirect(url_for('homePage'))
-        #else:
-            #return render_template('login.html')
-           #return render_template('login.html')
+
     else:
-        #session['username'] = ""
         session.clear()
         userLogin = request.form['userLog']
         passLogin = request.form['pwdLog'].encode('utf-8')
         curs = mysql.connection.cursor()
-
         curs.execute("SELECT * FROM tblUsers WHERE Username=%s", ([userLogin]))
         userInfo = curs.fetchone()
-
         curs.close()
-        #print(userInfo['password'])
 
         if len(userLogin) > 0:
             if userInfo is None:
@@ -620,20 +576,13 @@ def login():
 # DONE
 @app.route('/logout')
 def logout():
-    #print(session.__getitem__('username'))
-    #session['username'] = ""
     print("___app.py / logout::logout.html: Log out username: %s." % session.__getitem__('username'))
     session.clear()
     print("___app.py / logout::logout.html: Logout done. Session clear. Redirect to login.")
-    #session['username']=""
-    #session['authenticated'] = False
     return redirect(url_for('login'))
 
 #endregion
 
-
-
 if __name__ == '__main__':
-
     app.run(debug=True)
 
