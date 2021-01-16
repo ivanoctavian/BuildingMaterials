@@ -168,22 +168,22 @@ INSERT INTO tblResponsabiliRaioane VALUES(15,9,'B5','2020-02-04');
 
 INSERT INTO tblMateriale VALUES(1, 11, "B4", "Ciment++", 400, 18, 0);
 INSERT INTO tblMateriale VALUES(2, 4, "B4", "CX5", 500, 15, 0);
-INSERT INTO tblMateriale VALUES(3, 7, "C2", "SurubPentruLemn", 1500, 0.5, 12);
+INSERT INTO tblMateriale VALUES(3, 7, "C2", "SurubPentruLemn", 764, 0.5, 12);
 ############
 INSERT INTO tblMateriale VALUES(4, 5, "A1", "Lavabila", 15, 20, 3);
 INSERT INTO tblMateriale VALUES(5, 9, "A1", "Vopsea Primer", 18, 100, 3);
 INSERT INTO tblMateriale VALUES(6, 9, "C4", "Pamant de flori", 203, 199.99, 0);
-INSERT INTO tblMateriale VALUES(7, 8, "C2", "Surub stea", 721, 0.3,0);
+INSERT INTO tblMateriale VALUES(7, 8, "C2", "Surub stea", 321, 0.3,0);
 INSERT INTO tblMateriale VALUES(8, 10,"C2", "Teflon 20", 89, 89.99,3);
 INSERT INTO tblMateriale VALUES(9,12, "C4", "Grebla", 15, 34.99, 6);
 INSERT INTO tblMateriale VALUES(10,1, "C1", "AFX-17", 53, 18.99,0);
 #+15
-INSERT INTO tblMateriale VALUES(11, 8, "C2", "Piulite", 1000, 0.3, 0);
+INSERT INTO tblMateriale VALUES(11, 8, "C2", "Piulite", 467, 0.3, 0);
 INSERT INTO tblMateriale VALUES(12, 10, "A1", "Amorsa", 50, 16, 12);
 INSERT INTO tblMateriale VALUES(13, 3, "C3", "Adeziv pt lipire metal", 30, 12, 8);
 INSERT INTO tblMateriale VALUES(14, 6, "A1", "Pensula", 100, 7, 0);
 INSERT INTO tblMateriale VALUES(15, 1, "C1", "Adeplast GM-20", 45, 15, 12);
-INSERT INTO tblMateriale VALUES(16, 8, "C2", "Saiba", 800, 0.4, 0);
+INSERT INTO tblMateriale VALUES(16, 8, "C2", "Saiba", 210, 0.4, 0);
 INSERT INTO tblMateriale VALUES(17, 12,"C4", "Lopata", 15, 25, 0);
 INSERT INTO tblMateriale VALUES(18, 11,"B4", "Ciment Structo", 60, 18, 6);
 INSERT INTO tblMateriale VALUES(19, 4, "B5", "Decorativa", 15, 35, 12);
@@ -217,6 +217,9 @@ SELECT * FROM tblRaioane;
 SELECT * FROM tblMateriale;
 SELECT * FROM tblResponsabiliRaioane;
 
+SELECT tblRaioane.Categorie, SUM(Unitati) as 'NumarTotalUnitati' FROM tblMateriale
+RIGHT JOIN tblRaioane ON tblMateriale.RaionFK = tblRaioane.idRaion
+GROUP BY tblRaioane.Categorie;
 
 /*############## PROCEDURI ###############*/
 
