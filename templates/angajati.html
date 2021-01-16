@@ -1,175 +1,15 @@
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="/static/css/style.css">
 <style>
 @font-face {
   font-family: Lato-Regular;
-  src: url("../static/fonts/Lato-Regular.ttf");
+  src: url("/static/fonts/Lato-Regular.ttf");
 }
-body{
-    font-family: Lato-Regular;
-    margin:0;
-    padding:0;
-    background: #2a3a49;
-}
-.header{
-    position:relative;
-    top:0;
-    height:60px;
-    min-width:100%;
-    background:#f9d230;
-    display:flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom:100px;
-}
-.header-title{
-    padding-left: 50px;
-    color:white;
-    letter-spacing: 4px;
-}
-.username{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    position:absolute;
-    right:1%;
-    cursor:pointer;
-    padding:10px 5px 10px 5px;
-    border:2px solid black;
-}
-.username>p{
-    margin:0;
-}
-.arrow-down{
-    height:15px;
-    width:15px;
-    margin-left:5px;
-}
-.logout{
-    position:absolute;
-    top:86%;
-    right:1%;
-    width:152px;
-    height:45px;
-    background: white;
-    display:none;
-    justify-content: center;
-    align-items: center;
-}
-.logout>a{
-    text-decoration: none;
-    color:black;
-}
-.container{
-    display:flex;
-}
-.left-side{
-    list-style: none;
-    margin-right:100px;
-}
-.left-side li {
-    margin-bottom:20px;
-}
-.menuButton{
-    width:200px;
-    height:35px;
-    background: #f9d230;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius:10px;
-    cursor:pointer;
-    transition:0.3s;
-}
-.menuButton:hover{
-    background:white;
-}
-.menuButton:hover h4 {
-    color: #f9d230;
-}
-a{
-    text-decoration: none;
-}
-.buttonText{
-    color:white;
-}
-
-.right-side-header{
-    background: #f9d230;
-    display:flex;
-    justify-content: space-between;
-    padding:0 25px 0 25px;
-    color:white;
-    border-top-left-radius:10px;
-    border-top-right-radius:10px;
-}
-table{
-    margin-bottom:20px;
-}
-tr > td{
-    background:white;
-}
-.table-header{
-    background: #f9d230;
-}
-td,th{
-    padding:8px;
-}
-th{
-    padding-top:12px;
-    padding-bottom:12px;
-    color:white;
-}
-td{
-    border-bottom:1px solid #d3d3d3;
-    text-align:center;
-}
-tr:not(:first-child):hover{
-    text-shadow:0px 0px 1.5px black;
-}
-tr:nth-of-type(even) >td{
-    background:#e8e8e8;
-}
-tr:nth-of-type(even) >td.td-button{
-    background:transparent;
-}
-td.td-button{
-    background:transparent;
-    border:0;
-}
-a.td-button-link,.button-adauga{
-    color:white;
-    padding:6px 10px 6px 10px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    border-radius:5px;
-}
-a#edit{
-    background:#ADD8E6;
-}
-a#delete{
-    background:#f9826c;
-}
-.button-adauga>a{
-    margin:0 auto;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    background:#40c463;
-    color:white;
-    border:0;
-    padding:10px 15px 10px 15px;
-    cursor:pointer;
-    outline:none;
-    border-radius:5px;
-    font-family: Lato-Regular;
-    font-size:16px;
-    margin-bottom:50px;
+.right-side {
+  width: 100%;
 }
 </style>
-
-
 <body>
 <div class="header">
     <h2 class="header-title">ANGAJATI</h2>
@@ -179,7 +19,9 @@ a#delete{
     <img class="arrow-down" src="../static/img/arrow-down.svg" alt="arrow-down"/>
     </div>
     <div class="logout">
-    <a href="/logout">Logout</a>
+    <p>{{ session['numePrenume'] }}</p>
+    <p>{{ session['email'] }}</p>
+    <p><a href="/logout">Logout</a></p>
     </div>
 </div>
 <div class="container">
@@ -192,8 +34,8 @@ a#delete{
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('getAngajati') }}">
-                <div class="menuButton">
+                <a>
+                <div class="menuButton" id="disabled">
                 <h4 class="buttonText">Angajati</h4>
                 </div>
                 </a>
@@ -213,9 +55,9 @@ a#delete{
                 </a>
             </li>
             <li>
-                <a href="homePage.html">
+                <a href="{{ url_for('categoriiMateriale') }}">
                 <div class="menuButton">
-                <h4 class="buttonText">ALTU</h4>
+                <h4 class="buttonText">Categorii</h4>
                 </div>
                 </a>
             </li>
@@ -253,7 +95,6 @@ a#delete{
             <div class="button-adauga">
             <a href="{{ url_for('adauga')}}">Adauga</a>
             </div>
-            <!-- <input class="button-adauga" type="button" value="Adauga"/> -->
         </div>
 </div>
 

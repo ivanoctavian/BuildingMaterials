@@ -1,38 +1,10 @@
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="/static/css/style.css">
 <style>
 @font-face {
   font-family: Lato-Regular;
   src: url("../static/fonts/Lato-Regular.ttf");
-}
-body{
-    font-family: Lato-Regular;
-    margin:0;
-    padding:0;
-    background: #2a3a49;
-}
-.header{
-    position:relative;
-    top:0;
-    height:60px;
-    width:100%;
-    background:#f9d230;
-    display:flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom:100px;
-}
-.header-title{
-    padding-left: 50px;
-    color:white;
-    letter-spacing: 4px;
-}
-.registerBox{
-    position:absolute;
-    width:300px;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
 }
 
 .formText{
@@ -47,24 +19,11 @@ body{
     padding:10px 0 10px 0;
     color:#f9d230;
 }
-.error{
-    border-bottom: 2px solid #f2583e;
-}
+
 ::placeholder{
         color:#f9d230;
 }
-.loginButton{
-    width:100%;
-    border:2px solid #f9d230;
-    background: transparent;
-    padding:5px;
-    cursor:pointer;
-    font-size:15px;
-    font-weight: bold;
-    margin-bottom:15px;
-    color:#f9d230;
-    border-radius:5px;
-}
+
 .errorMessage{
     position:absolute;
     left:50%;
@@ -75,19 +34,21 @@ body{
     width:100%;
     text-align:center;
 }
-
+.error {
+      border-bottom: 2px solid #f2583e;
+    }
 </style>
 <body>
 <div class="header">
     <h2 class="header-title">LOGIN</h2>
 </div>
-<div class="registerBox">
+<div class="formContainer">
     <form method="POST" class="form" onsubmit="return checkForm(this)">
         <input class="formText" type="text" id="userLog" placeholder="Username" name="userLog"/>
         <input class="formText" type="password" id="pwdLog" placeholder="Parola" name="pwdLog"/>
-        <input class="loginButton" type="submit" value="Login"/>
+        <input class="submitButton" type="submit" value="Login"/>
         <a href="{{  url_for('register') }}">
-        <input class="loginButton" type="button" value="Creeaza Cont"/>
+        <input class="submitButton" type="button" value="Creeaza Cont"/>
         </a>
         {% if session['authenticated'] == False %}
         <p class="errorMessage">Username sau parola gresite</p>

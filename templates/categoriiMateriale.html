@@ -1,192 +1,19 @@
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="/static/css/style.css">
 <style>
 @font-face {
   font-family: Lato-Regular;
   src: url("../static/fonts/Lato-Regular.ttf");
 }
-body{
-    font-family: Lato-Regular;
-    margin:0;
-    padding:0;
-    background: #2a3a49;
-}
-tr:not(:first-child):hover{
-    text-shadow:0px 0px 1.5px black;
-}
-.header{
-    position:relative;
-    top:0;
-    height:60px;
-    width:100%;
-    background:#f9d230;
-    display:flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom:100px;
-}
-.header-title{
-    padding-left: 50px;
-    color:white;
-    letter-spacing: 4px;
-}
-.container{
-    display:flex;
-}
-.left-side{
-    list-style: none;
-    margin-right:100px;
-}
-.left-side li {
-    margin-bottom:20px;
-}
-.menuButton{
-    width:200px;
-    height:35px;
-    background: #f9d230;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius:10px;
-    cursor:pointer;
-    transition:0.3s;
-}
-.menuButton:hover{
-    background:white;
-}
-.menuButton:hover h4 {
-    color: #f9d230;
-}
-a{
-    text-decoration: none;
-}
-.buttonText{
-    color:white;
-}
-
-.right-side-header{
-    background: #f9d230;
-    display:flex;
-    justify-content: space-between;
-    padding:0 25px 0 25px;
-    color:white;
-    border-top-left-radius:10px;
-    border-top-right-radius:10px;
-}
-table{
-    margin-bottom:20px;
-}
-tr > td{
-    background:white;
-}
-.table-header{
-    background: #f9d230;
-}
-td,th{
-    padding:8px;
-}
-th{
-    padding-top:12px;
-    padding-bottom:12px;
-    color:white;
-}
-td{
-    border-bottom:1px solid #d3d3d3;
-    text-align:center;
-}
-
-tr:nth-of-type(even) >td{
-    background:#e8e8e8;
-}
-tr:nth-of-type(even) >td.td-button{
-    background:transparent;
-}
-td.td-button{
-    background:transparent;
-    border:0;
-}
-a.td-button-link,.button-adauga{
-    color:white;
-    padding:6px 10px 6px 10px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    border-radius:5px;
-}
-a#edit{
-    background:#ADD8E6;
-}
-a#delete{
-    background:#f9826c;
-}
-.button-adauga>a{
-    margin:0 auto;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    background:#40c463;
-    color:white;
-    border:0;
-    padding:10px 15px 10px 15px;
-    cursor:pointer;
-    outline:none;
-    border-radius:5px;
-    font-family: Lato-Regular;
-    font-size:16px;
-    margin-bottom:50px;
-}
-
-.search-box{
-    height:40px;
-    padding:10px;
-    width:280px;
-}
-#cauta{
-    border:none;
-    background: none;
-    outline:none;
-    float:left;
-    padding:0;
-    color:white;
-    font-size:16px;
-    transition:0.4s;
-    line-height:40px;
-    width:0px;
-    background:#f9d230;
-    border-radius:40px;
-}
-#cauta::placeholder{
-    color:white;
-}
-.search-btn{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:#f9d230;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition:0.4s;
-    cursor:default;
-}
-.search-btn>img{
-    height:20px;
-    width:20px;
-}
-.search-box:hover>.search-btn{
-    opacity:0;
-}
-.search-box:hover>#cauta{
-    width:240px;
-    padding:0 10px;
+.right-side {
+  width: 100%;
 }
 .categoriiList{
     list-style:none;
-    /* display: flex;
-    flex-direction: column;
-    align-items: center; */
     column-count: 3;
     padding:0 10px 0 10px;
+    margin-left:100px;
 }
 .categoriiListItem{
     margin-bottom:40px;
@@ -207,6 +34,7 @@ a#delete{
     transition:0.3s;
     font-size:25px;
     text-transform: uppercase;
+    border:5px solid white;
 }
 .categoriiListItem:hover{
     transform: scale(1.1);
@@ -214,24 +42,22 @@ a#delete{
 .categoriiListItem:nth-of-type(even) div{
     background:#e0c558;
 }
-.right-side{
-    width:100%;
-}
+
 </style>
-
-
-
-
 
 <body>
 <div class="header">
     <h2 class="header-title">CATEGORII</h2>
     {% if session['username'] %}
-    <p>You logged in as {{ session['username'] }}</p>
-
-    <li>
-    <a href="/logout">logout</a>
-    </li>
+    <div class="username">
+    <p>{{ session['username'] }}</p>
+    <img class="arrow-down" src="../static/img/arrow-down.svg" alt="arrow-down"/>
+    </div>
+    <div class="logout">
+    <p>{{ session['numePrenume'] }}</p>
+    <p>{{ session['email'] }}</p>
+    <p><a href="/logout">Logout</a></p>
+    </div>
 </div>
 <div class="container">
     <ul class="left-side">
@@ -264,9 +90,9 @@ a#delete{
                 </a>
             </li>
             <li>
-                <a href="homePage.html">
-                <div class="menuButton">
-                <h4 class="buttonText">ALTU</h4>
+                <a>
+                <div class="menuButton" id="disabled">
+                <h4 class="buttonText">Categorii</h4>
                 </div>
                 </a>
             </li>
