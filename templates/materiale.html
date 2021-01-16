@@ -11,9 +11,7 @@ body{
     padding:0;
     background: #2a3a49;
 }
-tr:hover{
-    font-weight: bold;
-}
+
 .header{
     position:relative;
     top:0;
@@ -94,7 +92,9 @@ td{
     border-bottom:1px solid #d3d3d3;
     text-align:center;
 }
-
+tr:not(:first-child):hover{
+    text-shadow:0px 0px 1.5px black;
+}
 tr:nth-of-type(even) >td{
     background:#e8e8e8;
 }
@@ -266,7 +266,7 @@ a#delete{
                 <td>{{ material.Raion }}</td>
                 <td>{{ material.Categorie }}</td>
                 <td class="td-button"><a class="td-button-link" id="edit" href="{{ url_for('editMaterial', id = material.idMaterial) }}">Edit</a></td>
-                <td class="td-button"><a class="td-button-link" id="delete" href="{{ url_for('deleteAngajat', id = material.idMaterial) }}">Delete</a></td>
+                <td class="td-button"><a class="td-button-link" id="delete" href="{{ url_for('deleteMaterial', id = material.idMaterial) }}">Delete</a></td>
             </tr>
         {% endfor %}
 {% endif %}

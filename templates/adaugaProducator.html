@@ -78,29 +78,18 @@
   <meta charset="UTF-8" />
   <body>
     <div class="header">
-      <h2 class="header-title">ADAUGARE ANGAJAT</h2>
+      <h2 class="header-title">ADAUGARE PRODUCATOR</h2>
     </div>
     <div class="adaugareBox">
       <form method="post" action="#" onsubmit="return checkForm(this)">
-        <p class="formElement">Nume</p>
-        <input class="formText" type="text" name="nume" id="nume" />
-        <p class="formElement">Prenume</p>
-        <input class="formText" type="text" name="prenume" id="prenume" />
-        <p class="formElement">Functie</p>
-        <input class="formText" type="text" name="functie" id="functie" />
-        <p class="formElement">Data angajarii</p>
-        <input
-          class="formText"
-          type="date"
-          name="data_angajarii"
-          id="data_angajarii"
-        />
+        <p class="formElement">Denumire</p>
+        <input class="formText" type="text" name="denumire" id="denumire" />
+        <p class="formElement">Sediu</p>
+        <input class="formText" type="text" name="sediu" id="sediu" />
         <p class="formElement">Telefon</p>
-        <input class="formText" type="number" name="telefon" id="telefon" />
+        <input class="formText" type="text" name="telefon" id="telefon" />
         <p class="formElement">Email</p>
-        <input class="formText" type="text" name="email" id="email" />
-        <p class="formElement">Salariu</p>
-        <input class="formText" type="number" name="salariu" id="salariu" />
+        <input class="formText" type="text" name="email" id="email"/>
 
         <input class="adaugaButton" type="submit" value="Adauga" />
 
@@ -114,39 +103,24 @@
       console.log(form.nume.value);
       $(".formText").removeClass("error");
 
-      if (form.nume.value == "") {
-        $(".errorMessage").text("Numele trebuie completat!");
-        $("#nume").addClass("error");
+      if (form.denumire.value == "") {
+        $(".errorMessage").text("Denumirea trebuie completata!");
+        $("#denumire").addClass("error");
         return false;
       }
-      if (form.prenume.value == "") {
-        $(".errorMessage").text("Prenumele trebuie completat!");
-        $("#prenume").addClass("error");
-        return false;
-      }
-      if (form.functie.value == "") {
-        $(".errorMessage").text("Functia trebuie completata!");
-        $("#functie").addClass("error");
-        return false;
-      }
-      if (form.data_angajarii.value == "") {
-        $(".errorMessage").text("Data angajarii trebuie completata!");
-        $("#data_angajarii").addClass("error");
+      if (form.sediu.value == "") {
+        $(".errorMessage").text("Sediul trebuie completat!");
+        $("#sediu").addClass("error");
         return false;
       }
       if (form.telefon.value == "") {
-        $(".errorMessage").text("Numarul de telefon trebuie completat!");
+        $(".errorMessage").text("Telefon trebuie completata!");
         $("#telefon").addClass("error");
         return false;
       }
       if (form.email.value == "") {
-        $(".errorMessage").text("Emailul trebuie completat!");
+        $(".errorMessage").text("Email-ul trebuie completata!");
         $("#email").addClass("error");
-        return false;
-      }
-      if (form.salariu.value == "") {
-        $(".errorMessage").text("Salariul trebuie completat!");
-        $("#salariu").addClass("error");
         return false;
       }
       return true;

@@ -124,8 +124,8 @@ td{
     border-bottom:1px solid #d3d3d3;
     text-align:center;
 }
-tr:hover{
-    font-weight: bold;
+tr:not(:first-child):hover{
+    text-shadow:0px 0px 1.5px black;
 }
 tr:nth-of-type(even) >td{
     background:#e8e8e8;
@@ -231,6 +231,7 @@ a#delete{
                 <th>Telefon</th>
                 <th>Email</th>
                 <th>Salariu</th>
+
                 </tr>
                 {% for angajat in angajati %}
             <tr>
@@ -242,6 +243,7 @@ a#delete{
                 <td>{{ angajat.Telefon }}</td>
                 <td>{{ angajat.Email }}</td>
                 <td>{{ angajat.SalariuRON }}</td>
+
                 <td class="td-button"><a class="td-button-link" id="edit" href="{{ url_for('editAngajat', id = angajat.idAngajat) }}">Edit</a></td>
                 <td class="td-button"><a class="td-button-link" id="delete" href="{{ url_for('deleteAngajat', id = angajat.idAngajat) }}">Delete</a></td>
             </tr>

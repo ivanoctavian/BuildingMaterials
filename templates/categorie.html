@@ -11,8 +11,8 @@ body{
     padding:0;
     background: #2a3a49;
 }
-tr:hover{
-    font-weight: bold;
+tr:not(:first-child):hover{
+    text-shadow:0px 0px 1.5px black;
 }
 .header{
     position:relative;
@@ -235,12 +235,6 @@ a#delete{
             </li>
     </ul>
     <div class="right-side">
-        <div class="search-box">
-        <input id="cauta" type="text" onkeyup="myFunction()" placeholder="Cauta un material"/>
-        <a class="search-btn" href="#">
-            <img src="../static/img/loupe.svg" alt="lupa"/>
-        </a>
-        </div>
     <table rules="none" id="tabelul">
                 <tr class="table-header">
                 <th>Denumire</th>

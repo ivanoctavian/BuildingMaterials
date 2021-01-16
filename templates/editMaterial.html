@@ -100,15 +100,26 @@ select{
    pointer-events:none;
    transition:.25s all ease;
 }
+.errorMessage{
+    position:absolute;
+    left:50%;
+    top:85%;
+    transform:translate(-50%,-50%);
+    display:block;
+    color:#f2583e;
+}
+.error {
+      border-bottom: 2px solid #f2583e;
+}
     </style>
 <body>
 <div class="header">
-    <h2 class="header-title">ADAUGARE</h2>
+    <h2 class="header-title">EDITARE MATERIAL</h2>
 </div>
 <div class="adaugareBox">
-<form method="post" action="#">
+<form method="post" action="#" onsubmit="return checkForm(this)">
 <div class="select-wrapper">
-<select id="numeP" name="numeP">
+<select class="ProducatorCategorie" id="numeP" name="numeP">
     <!--<option selected disabled>Producator</option>-->
     <option value="{{ materiale.DenumireProducator }}">{{ materiale.DenumireProducator }}</option>
     {% for producator in producatori %}
@@ -117,7 +128,7 @@ select{
 </select>
 </div>
 <div class="select-wrapper">
-<select id="categorieM" name="categorieM">
+<select class="ProducatorCategorie" id="categorieM" name="categorieM">
     <!--<option selected disabled>Categorie</option>-->
     <option value="{{ materiale.Categorie }}">{{ materiale.Categorie }}</option>
     {% for categorie in categorii %}
@@ -126,14 +137,53 @@ select{
 </select>
 </div>
     <p class="formElement">Denumire</p>
-    <input class="formText" type="text" name="denumireM" value="{{ materiale.DenumireMaterial }}">
+    <input class="formText" type="text" name="denumireM" id="denumireM" value="{{ materiale.DenumireMaterial }}">
     <p class="formElement">Unitati</p>
-    <input class="formText" type="number" name="unitatiM" value="{{ materiale.Unitati }}">
+    <input class="formText" type="number" name="unitatiM" id="unitatiM" value="{{ materiale.Unitati }}">
     <p class="formElement">Pret</p>
-    <input class="formText" type="number" name="pretM" value="{{ materiale.PretRON }}">
+    <input class="formText" type="number" name="pretM" id="pretM" value="{{ materiale.PretRON }}">
     <p class="formElement">Garantie</p>
-    <input class="formText" type="number" name="garantieM" value="{{ materiale.GarantieLuni }}">
+    <input class="formText" type="number" name="garantieM" id="garantieM" value="{{ materiale.GarantieLuni }}">
     <input class="adaugaButton" type="submit" value="Update">
     </form>
 </div>
+<h4 class="errorMessage"></h4>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+    function checkForm(form) {
+      $(".formText").removeClass("error");
+      $(".ProducatorCategorie").css("background","white");
+      if (form.numeP.value == "Producator") {
+        $(".errorMessage").text("Producatorul trebuie ales!");
+        $("#numeP").css("background","#f2583e");
+        return false;
+      }
+      if (form.categorieM.value == "Categorie") {
+        $(".errorMessage").text("Categoria trebuie aleasa!");
+        $("#categorieM").css("background","#f2583e");
+        return false;
+      }
+      if (form.denumireM.value == "") {
+        $(".errorMessage").text("Denumirea trebuie completata!");
+        $("#denumireM").addClass("error");
+        return false;
+      }
+      if (form.unitatiM.value == "") {
+        $(".errorMessage").text("Numarul de unitati trebuie completat!");
+        $("#unitatiM").addClass("error");
+        return false;
+      }
+      if (form.pretM.value == "") {
+        $(".errorMessage").text("Pretul trebuie completat!");
+        $("#pretM").addClass("error");
+        return false;
+      }
+      if (form.garantieM.value == "") {
+        $(".errorMessage").text("Garantia trebuie completata!");
+        $("#garantieM").addClass("error");
+        return false;
+      }
+      return true;
+    }
+  </script>
 </body>

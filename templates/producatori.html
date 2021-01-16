@@ -11,9 +11,6 @@ body{
     padding:0;
     background: #2a3a49;
 }
-tr:hover{
-    font-weight: bold;
-}
 .header{
     position:relative;
     top:0;
@@ -127,8 +124,8 @@ td{
     border-bottom:1px solid #d3d3d3;
     text-align:center;
 }
-tr:hover{
-    font-weight: bold;
+tr:not(:first-child):hover{
+    text-shadow:0px 0px 1.5px black;
 }
 tr:nth-of-type(even) >td{
     background:#e8e8e8;
@@ -172,7 +169,7 @@ a#delete{
 </style>
 <body>
 <div class="header">
-    <h2 class="header-title">ANGAJATI</h2>
+    <h2 class="header-title">PRODUCATORI</h2>
     {% if session['username'] %}
     <div class="username">
     <p>{{ session['username'] }}</p>
@@ -236,6 +233,8 @@ a#delete{
                 <td>{{ producator.Sediu }}</td>
                 <td>{{ producator.Telefon }}</td>
                 <td>{{ producator.Email }}</td>
+                 <td class="td-button"><a class="td-button-link" id="edit" href="{{ url_for('editProducator', id = producator.idProducator) }}">Edit</a></td>
+                    <td class="td-button"><a class="td-button-link" id="delete" href="{{ url_for('deleteProducator', id = producator.idProducator) }}">Delete</a></td>
             </tr>
         {% endfor %}
 {% endif %}

@@ -63,31 +63,88 @@ body{
     color:#f9d230;
     border-radius:5px;
 }
+.errorMessage{
+    position:absolute;
+    left:50%;
+    top:85%;
+    transform:translate(-50%,-50%);
+    display:block;
+    color:#f2583e;
+}
+.error {
+      border-bottom: 2px solid #f2583e;
+  }
 </style>
 <meta charset="UTF-8">
 <body>
 <div class="header">
-    <h2 class="header-title">EDITARE</h2>
+    <h2 class="header-title">EDITARE ANGAJAT</h2>
 </div>
 <div class="editBox">
-<form method="post" action="">
+<form method="post" action="" onsubmit="return checkForm(this)">
      <p class="formElement">Nume</p>
-     <input class="formText" type="text" name="nume" value="{{ angajati.Nume }}">
+     <input class="formText" type="text" name="nume" id="nume" value="{{ angajati.Nume }}">
      <p class="formElement">Prenume</p>
-     <input class="formText" type="text" name="prenume" value="{{ angajati.Prenume }}">
+     <input class="formText" type="text" name="prenume" id="prenume" value="{{ angajati.Prenume }}">
      <p class="formElement">Functie</p>
-     <input class="formText" type="text" name="functie" value="{{ angajati.Functie }}">
+     <input class="formText" type="text" name="functie" id="functie" value="{{ angajati.Functie }}">
      <p class="formElement">Data angajarii</p>
-     <input class="formText" type="date" name="data_angajarii" value="{{ angajati.DataAngajarii }}">
+     <input class="formText" type="date" name="data_angajarii" id="data_angajarii" value="{{ angajati.DataAngajarii }}">
      <p class="formElement">Telefon</p>
-     <input class="formText" type="number" name="telefon" value="{{ angajati.Telefon }}">
+     <input class="formText" type="number" name="telefon" id="telefon" value="{{ angajati.Telefon }}">
      <p class="formElement">Email</p>
-     <input class="formText" type="text" name="email" value="{{ angajati.Email }}">
+     <input class="formText" type="text" name="email" id="emai;" value="{{ angajati.Email }}">
      <p class="formElement">Salariu</p>
-     <input class="formText" type="number" name="salariu" value="{{ angajati.SalariuRON }}">
+     <input class="formText" type="number" name="salariu" id="salariu" value="{{ angajati.SalariuRON }}">
+
     <input class="updateButton" type="submit" value="Update">
 
 </form>
 </div>
+<h4 class="errorMessage"></h4>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    function checkForm(form)
+      {
+        $(".formText").removeClass("error");
+    
+        if(form.nume.value == "") {
+          $(".errorMessage").text("Numele trebuie completat!");
+          $("#nume").addClass("error");
+          return false;
+        }
+        if(form.prenume.value == "") {
+          $(".errorMessage").text("Prenumele trebuie completat!");
+          $("#prenume").addClass("error");
+          return false;
+        }
+        if(form.functie.value == "") {
+          $(".errorMessage").text("Functia trebuie completata!");
+          $("#functie").addClass("error");
+          return false;
+        }
+        if(form.data_angajarii.value == "") {
+          $(".errorMessage").text("Data angajarii trebuie completata!");
+          $("#data_angajarii").addClass("error");
+          return false;
+        }
+        if(form.telefon.value == "") {
+          $(".errorMessage").text("Numarul de telefon trebuie completat!");
+          $("#telefon").addClass("error");
+          return false;
+        }
+        if(form.email.value == "") {
+          $(".errorMessage").text("Emailul trebuie completat!");
+          $("#email").addClass("error");
+          return false;
+        }
+        if(form.salariu.value == "") {
+          $(".errorMessage").text("Salariul trebuie completat!");
+          $("#salariu").addClass("error");
+          return false;
+        }
+        return true;
+      }
+    </script>
 </html>
